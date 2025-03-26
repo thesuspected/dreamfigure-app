@@ -1,7 +1,7 @@
 <template>
     <div class="page q-pa-md">
         <div class="progress">
-            <back-button @click="step--"/>
+            <m-back-button @click="step--"/>
             <q-linear-progress :value="progress" rounded size="8px" class="q-mr-sm"/>
         </div>
         <div class="content">
@@ -25,10 +25,10 @@
 import { ref } from "vue"
 import { VueScrollPicker } from "vue-scroll-picker"
 import "vue-scroll-picker/style.css"
-import BackButton from "components/buttons/BackButton.vue"
+import MBackButton from "components/buttons/BackButton.vue"
 import ActionButton from "components/buttons/ActionButton.vue"
 import FormInput from "components/form/input/FormInput.vue"
-import { MainButton } from "vue-tg";
+import { MainButton, BackButton } from "vue-tg";
 
 const progress = ref(0.1)
 const text = ref()
