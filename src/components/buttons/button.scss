@@ -1,0 +1,15 @@
+.absolute-btn {
+  &-sm {
+    position: absolute;
+    z-index: 1;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  &-md {
+    position: absolute;
+    z-index: 1;
+    top: 16px;
+    right: 16px;
+  }
+}

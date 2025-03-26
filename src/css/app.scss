@@ -1,1 +1,53 @@
+@import "utils";
 // app global css in SCSS form
+html, body {
+    //overflow-x: hidden;
+    font-family: 'Commissioner', sans-serif;
+    background: $bg;
+    overflow: hidden;
+}
+
+// CUSTOM COLORS
+.bg-grey-lighter {
+    background: #F1F1F1 !important;
+}
+
+.text-grey-lighter {
+    color: #F1F1F1;
+}
+
+.bg-grey-light, {
+    background: #E1E1E1 !important;
+}
+
+.text-grey-light {
+    color: #E1E1E1;
+}
+
+.bg-dark {
+    background: $dark !important;
+}
+
+.bg-gray {
+    background: $gray !important;
+}
+
+.text-gray {
+    color: $gray !important;
+}
+
+.bg-sub {
+    background: $sub !important;
+}
+
+.color-sub {
+    color: $sub !important;
+}
+
+.text-input {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.text-input-2 {
+    color: rgba(0, 0, 0, 0.6);
+}
