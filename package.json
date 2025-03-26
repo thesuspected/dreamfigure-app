@@ -15,21 +15,21 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
+    "animate.css": "^4.1.1",
     "axios": "^1.2.1",
+    "dayjs": "^1.11.10",
+    "lodash": "^4.17.21",
     "pinia": "^3.0.1",
     "quasar": "^2.16.0",
+    "swiper": "^9.2.0",
     "vue": "^3.4.18",
     "vue-router": "^4.0.12",
     "vue-scroll-picker": "^2.0.0",
-    "vue-tg": "^0.8.0",
-    "swiper": "^9.2.0",
-    "lodash": "^4.17.21",
-    "dayjs": "^1.11.10",
-    "animate.css": "^4.1.1"
+    "vue-tg": "^0.9.0-beta.3"
   },
   "devDependencies": {
-    "@types/node": "^20.5.9",
     "@quasar/app-vite": "^2.1.0",
+    "@types/node": "^20.5.9",
     "autoprefixer": "^10.4.2",
     "typescript": "~5.5.3"
   },

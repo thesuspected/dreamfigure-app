@@ -5,6 +5,13 @@ html, body {
     font-family: 'Commissioner', sans-serif;
     background: $bg;
     overflow: hidden;
+    height: 100svh;
+}
+
+h1 {
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 1.2;
 }
 
 // CUSTOM COLORS
