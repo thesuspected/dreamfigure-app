@@ -1,6 +1,6 @@
 <template>
     <div class="form-item">
-        <text-label :label="label"/>
+        <text-label :label="label" />
         <q-input
             ref="inputRef"
             :model-value="modelValue"
@@ -19,18 +19,19 @@
             :disable="disabled"
             @update:model-value="updateModelValue"
             @keyup="onKeyup"
+            @click="handleClick"
         >
             <template v-if="customPrepend" v-slot:prepend>
-                <slot name="prepend"/>
+                <slot name="prepend" />
             </template>
             <template v-else-if="prepend" v-slot:prepend>
-                <base-icon :name="prepend" size="sm" color="input"/>
+                <base-icon :name="prepend" size="sm" color="input" />
             </template>
             <template v-if="customAppend" v-slot:append>
-                <slot name="append"/>
+                <slot name="append" />
             </template>
             <template v-else-if="append" v-slot:append>
-                <base-icon :name="append" size="xs" color="light"/>
+                <base-icon :name="append" size="xs" color="light" />
             </template>
         </q-input>
     </div>
@@ -39,12 +40,13 @@
 <script setup lang="ts">
 import TextLabel from "components/form/text/TextLabel.vue"
 import BaseIcon from "components/icon/BaseIcon.vue"
-import { ref } from "vue";
-import useClickOutside from "src/hooks/useClickOutside";
+import { PropType, ref } from "vue"
+import useClickOutside from "src/hooks/useClickOutside"
+import { useHapticFeedback } from "vue-tg"
 
 const props = defineProps({
     modelValue: {
-        type: [String, Number],
+        type: [String, Number] as PropType<string | number | undefined>,
     },
     label: {
         type: String,
@@ -102,7 +104,7 @@ const props = defineProps({
         type: Boolean,
     },
 })
-const emit = defineEmits(["update:model-value"])
+const emit = defineEmits(["update:model-value", "enter"])
 const inputRef = ref()
 
 const updateModelValue = (value?: string) => {
@@ -122,13 +124,19 @@ const blurInputRef = () => {
 }
 
 const onKeyup = (event: KeyboardEvent) => {
-    const {key} = event
-    if (key === 'Enter') {
+    const { key } = event
+    if (key === "Enter") {
         blurInputRef()
+        emit("enter")
     }
 }
 
-useClickOutside({elRef: inputRef, callback: blurInputRef});
+const hapticFeedback = useHapticFeedback()
+const handleClick = () => {
+    hapticFeedback.impactOccurred!("light")
+}
+
+useClickOutside({ elRef: inputRef, callback: blurInputRef })
 
 </script>
 
