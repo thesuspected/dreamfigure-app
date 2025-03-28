@@ -1,55 +1,37 @@
 <template>
     <div class="column q-gutter-y-sm">
         <action-button
-            :color="selectedValue === firstValue ? 'primary' : 'grey-4'"
-            :text-color="selectedValue === firstValue ? 'white' : 'dark'"
-            @click="selectValue(firstValue)"
-            :label="firstText"
-        />
-
-        <action-button
-            :color="selectedValue === secondValue ? 'primary' : 'grey-4'"
-            :text-color="selectedValue === secondValue ? 'white' : 'dark'"
-            @click="selectValue(secondValue)"
-            :label="secondText"
+            v-for="(item, key) in options"
+            :key="key"
+            :color="modelValue === item.value ? 'primary' : 'grey-4'"
+            :text-color="modelValue === item.value ? 'white' : 'dark'"
+            :icon="item.icon"
+            :label="item.name"
+            @click="handleClick(item)"
         />
     </div>
 </template>
 
-<script setup>
-import { ref } from "vue"
+<script lang="ts" setup>
+import { PropType } from "vue"
 import ActionButton from "../buttons/ActionButton.vue"
-const emit = defineEmits(["selection"])
+import { OptionsType } from "components/form/input/types.js"
 
-const props = defineProps({
-    firstValue: {
-        type: [String, Number],
-        required: true,
-    },
-    secondValue: {
-        type: [String, Number],
-        required: true,
-    },
-    firstText: {
+const emit = defineEmits(["update:model-value"])
+
+defineProps({
+    modelValue: {
         type: String,
-        default: "",
     },
-    secondText: {
-        type: String,
-        default: "",
+    options: {
+        type: Array as PropType<OptionsType[]>,
     },
 })
 
-const selectedValue = ref(null)
-
-const selectValue = (value) => {
-    selectedValue.value = value
-    emit("selection", value)
+const handleClick = (item: OptionsType) => {
+    emit("update:model-value", item.value)
 }
 </script>
 
 <style scoped>
-.q-btn {
-    transition: all 0.3s ease;
-}
 </style>

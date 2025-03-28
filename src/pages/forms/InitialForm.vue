@@ -13,13 +13,13 @@
             <!--    Имя    -->
             <div v-if="step === 1" class="step">
                 <h1>Как вас зовут?</h1>
-                <p>Эти данные помогут сделать план более персональным</p>
+                <p>Эти поможет создать персональный план для вас</p>
                 <form-input v-model="form.callName" placeholder="Введите Имя" @enter="handleContinueButton" />
             </div>
             <!--    Дата рождения    -->
             <div v-if="step === 2" class="step">
                 <h1>Сколько вам лет?</h1>
-                <p>Эти данные помогут сделать план более персональным</p>
+                <p>Эти поможет создать персональный план для вас</p>
                 <scroll-picker :options="ageOptions" v-model="form.age" />
             </div>
             <!--    Пол    -->
@@ -27,11 +27,8 @@
                 <h1>Выберите ваш пол</h1>
                 <p>Эти данные помогут сделать план более персональным</p>
                 <ButtonGroup
-                    :first-value="1"
-                    :second-value="2"
-                    first-text="Мужской"
-                    second-text="Женский"
-                    @selection="handleSelection"
+                    v-model="form.gender"
+                    :options="genderOptions"
                 />
             </div>
             <!--    Рост    -->
@@ -43,26 +40,26 @@
 
             <!--    Вес изначальный    -->
             <div v-if="step === 5" class="step">
-                <h1>Какой у вас сейчас вес?</h1>
+                <h1>Какой у вас вес?</h1>
                 <p>Эти данные помогут сделать план более персональным</p>
                 <scroll-picker :options="initialWeightOptions" v-model="form.initialWeight" />
             </div>
             <!--    Вес желаемый    -->
             <div v-if="step === 6" class="step">
-                <h1>Какой у вас желаемый вес?</h1>
-                <p>Эти данные помогут сделать план более персональным</p>
+                <h1>Сколько вы хотели бы весить?</h1>
+                <p>С помощью этих данных мы сможем отслеживать ваш прогресс</p>
                 <scroll-picker :options="currentWeightOptions" v-model="form.currentWeight" />
             </div>
             <!--    Окружность талии    -->
             <div v-if="step === 7" class="step">
                 <h1>Какая у вас окружность талии?</h1>
-                <p>Эти данные помогут сделать план более персональным</p>
+                <p>Эти данные необходимы для расчета ваших показателей</p>
                 <scroll-picker :options="waistLengthOptions" v-model="form.waistLength" />
             </div>
             <!--    Окружность шеи    -->
             <div v-if="step === 8" class="step">
                 <h1>Какая у вас окружность шеи?</h1>
-                <p>Эти данные помогут сделать план более персональным</p>
+                <p>Эти данные необходимы для расчета ваших показателей</p>
                 <scroll-picker :options="neckLengthOptions" v-model="form.neckLength" />
             </div>
 
@@ -86,24 +83,25 @@ import {
     generateInitialWeightOptions,
     generateNeckLength,
     generateWaistLength,
-} from "pages/forms/const"
+} from "pages/forms/helpers"
 import ScrollPicker from "components/form/input/ScrollPicker.vue"
 import { useRouter } from "vue-router"
 import ButtonGroup from "src/components/groups/ButtonGroup.vue"
 
 const router = useRouter()
 
-const step = ref(3)
+const step = ref(0)
 const progress = computed(() => step.value / formLength)
 
 const form = ref({
     callName: undefined,
+    gender: "FEMALE",
     age: 29,
     height: 170,
     initialWeight: 70,
-    currentWeight: 55,
-    waistLength: 70,
-    neckLength: 50,
+    currentWeight: 60,
+    waistLength: 80,
+    neckLength: 40,
 })
 const formLength = Object.values(form.value).length
 const ageOptions = generateAgeOptions()
@@ -112,6 +110,18 @@ const initialWeightOptions = generateInitialWeightOptions()
 const currentWeightOptions = generateCurrentWeightOptions()
 const waistLengthOptions = generateWaistLength()
 const neckLengthOptions = generateNeckLength()
+const genderOptions = [
+    {
+        name: "Мужской",
+        value: "MALE",
+        icon: "fa-solid fa-mars",
+    },
+    {
+        name: "Женский",
+        value: "FEMALE",
+        icon: "fa-solid fa-venus",
+    },
+]
 
 const handleBackButton = () => {
     if (step.value > 0) {

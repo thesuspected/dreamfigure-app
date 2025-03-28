@@ -1,4 +1,5 @@
 export interface OptionsType {
     name: string
-    value: string | number
+    value: string | number,
+    icon?: string
 }
