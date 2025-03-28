@@ -17,18 +17,55 @@
                 <form-input v-model="form.callName" placeholder="Введите Имя" @enter="handleContinueButton" />
             </div>
             <!--    Дата рождения    -->
-            <!--    Пол    -->
-            <!--    Рост    -->
             <div v-if="step === 2" class="step">
+                <h1>Сколько вам лет?</h1>
+                <p>Эти данные помогут сделать план более персональным</p>
+                <scroll-picker :options="ageOptions" v-model="form.age" />
+            </div>
+            <!--    Пол    -->
+            <div v-if="step === 3" class="step">
+                <h1>Выберите ваш пол</h1>
+                <p>Эти данные помогут сделать план более персональным</p>
+                <ButtonGroup
+                    :first-value="1"
+                    :second-value="2"
+                    first-text="Мужской"
+                    second-text="Женский"
+                    @selection="handleSelection"
+                />
+            </div>
+            <!--    Рост    -->
+            <div v-if="step === 4" class="step">
                 <h1>Какой у вас рост?</h1>
                 <p>Эти данные помогут сделать план более персональным</p>
                 <scroll-picker :options="heightOptions" v-model="form.height" />
             </div>
-            <!--    Рост    -->
+
             <!--    Вес изначальный    -->
+            <div v-if="step === 5" class="step">
+                <h1>Какой у вас сейчас вес?</h1>
+                <p>Эти данные помогут сделать план более персональным</p>
+                <scroll-picker :options="initialWeightOptions" v-model="form.initialWeight" />
+            </div>
             <!--    Вес желаемый    -->
+            <div v-if="step === 6" class="step">
+                <h1>Какой у вас желаемый вес?</h1>
+                <p>Эти данные помогут сделать план более персональным</p>
+                <scroll-picker :options="currentWeightOptions" v-model="form.currentWeight" />
+            </div>
             <!--    Окружность талии    -->
+            <div v-if="step === 7" class="step">
+                <h1>Какая у вас окружность талии?</h1>
+                <p>Эти данные помогут сделать план более персональным</p>
+                <scroll-picker :options="waistLengthOptions" v-model="form.waistLength" />
+            </div>
             <!--    Окружность шеи    -->
+            <div v-if="step === 8" class="step">
+                <h1>Какая у вас окружность шеи?</h1>
+                <p>Эти данные помогут сделать план более персональным</p>
+                <scroll-picker :options="neckLengthOptions" v-model="form.neckLength" />
+            </div>
+
             <!--    Калькулятор: Процент жира    -->
             <!--    Калькулятор: Идеальный вес    -->
         </div>
@@ -42,22 +79,39 @@ import "vue-scroll-picker/style.css"
 import BackArrowButton from "components/buttons/BackArrowButton.vue"
 import FormInput from "components/form/input/FormInput.vue"
 import { MainButton } from "vue-tg"
-import { generateHeightOptions } from "pages/forms/const"
+import {
+    generateAgeOptions,
+    generateCurrentWeightOptions,
+    generateHeightOptions,
+    generateInitialWeightOptions,
+    generateNeckLength,
+    generateWaistLength,
+} from "pages/forms/const"
 import ScrollPicker from "components/form/input/ScrollPicker.vue"
 import { useRouter } from "vue-router"
+import ButtonGroup from "src/components/groups/ButtonGroup.vue"
 
 const router = useRouter()
 
-const step = ref(0)
+const step = ref(3)
 const progress = computed(() => step.value / formLength)
 
 const form = ref({
     callName: undefined,
+    age: 29,
     height: 170,
-    birthDate: undefined,
+    initialWeight: 70,
+    currentWeight: 55,
+    waistLength: 70,
+    neckLength: 50,
 })
 const formLength = Object.values(form.value).length
+const ageOptions = generateAgeOptions()
 const heightOptions = generateHeightOptions()
+const initialWeightOptions = generateInitialWeightOptions()
+const currentWeightOptions = generateCurrentWeightOptions()
+const waistLengthOptions = generateWaistLength()
+const neckLengthOptions = generateNeckLength()
 
 const handleBackButton = () => {
     if (step.value > 0) {
@@ -67,7 +121,7 @@ const handleBackButton = () => {
     }
 }
 const handleContinueButton = () => {
-    if (step.value + 1 < formLength) {
+    if (step.value < formLength) {
         step.value++
     } else {
         router.push("/")
