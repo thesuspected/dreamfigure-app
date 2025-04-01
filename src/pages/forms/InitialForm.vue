@@ -13,20 +13,24 @@
             <!--    Имя    -->
             <div v-if="step === 1" class="step">
                 <h1>Как вас зовут?</h1>
-                <p>Эти поможет создать персональный план для вас</p>
+                <p>Это поможет создать персональный план для вас</p>
                 <form-input v-model="form.callName" placeholder="Введите Имя" @enter="handleContinueButton" />
             </div>
             <!--    Дата рождения    -->
             <div v-if="step === 2" class="step">
-                <h1>Сколько вам лет?</h1>
-                <p>Эти поможет создать персональный план для вас</p>
-                <scroll-picker :options="ageOptions" v-model="form.age" />
+                <h1>Укажите дату рождения</h1>
+                <p>Это поможет создать персональный план для вас</p>
+                <date-scroll-picker
+                    v-model:day="form.birthDate.day"
+                    v-model:month="form.birthDate.month"
+                    v-model:year="form.birthDate.year"
+                />
             </div>
             <!--    Пол    -->
             <div v-if="step === 3" class="step">
                 <h1>Выберите ваш пол</h1>
                 <p>Эти данные помогут сделать план более персональным</p>
-                <ButtonGroup v-model="form.gender" :options="genderOptions" />
+                <ColumnButtonGroup v-model="form.gender" :options="genderOptions" />
             </div>
             <!--    Рост    -->
             <div v-if="step === 4" class="step">
@@ -72,7 +76,7 @@
             </div>
             <!--    Калькулятор: Идеальный вес    -->
         </div>
-        <MainButton text="Продолжить" @click="handleContinueButton" />
+        <true-main-button label="Продолжить" @click="handleContinueButton" />
     </div>
 </template>
 
@@ -81,9 +85,7 @@ import { computed, ref } from "vue"
 import "vue-scroll-picker/style.css"
 import BackArrowButton from "components/buttons/BackArrowButton.vue"
 import FormInput from "components/form/input/FormInput.vue"
-import { MainButton } from "vue-tg"
 import {
-    generateAgeOptions,
     generateCurrentWeightOptions,
     generateHeightOptions,
     generateInitialWeightOptions,
@@ -95,8 +97,11 @@ import {
 } from "pages/forms/helpers"
 import ScrollPicker from "components/form/picker/ScrollPicker.vue"
 import { useRouter } from "vue-router"
-import ButtonGroup from "src/components/groups/ButtonGroup.vue"
+import ColumnButtonGroup from "src/components/groups/ColumnButtonGroup.vue"
 import { InitialFormType } from "./types"
+import DateScrollPicker from "components/form/picker/DateScrollPicker.vue"
+import dayjs from "dayjs"
+import TrueMainButton from "components/buttons/TrueMainButton.vue"
 
 const router = useRouter()
 
@@ -106,7 +111,12 @@ const progress = computed(() => step.value / formLength)
 const form = ref<InitialFormType>({
     callName: undefined,
     gender: "FEMALE",
-    age: 29,
+    birthDate: {
+        day: 15,
+        month: 5,
+        year: 1980,
+    },
+    age: undefined,
     height: 170,
     initialWeight: 70,
     currentWeight: 60,
@@ -116,7 +126,6 @@ const form = ref<InitialFormType>({
     calcFatPercent: undefined,
 })
 const formLength = Object.values(form.value).length
-const ageOptions = generateAgeOptions()
 const heightOptions = generateHeightOptions()
 const initialWeightOptions = generateInitialWeightOptions()
 const currentWeightOptions = generateCurrentWeightOptions()
@@ -145,6 +154,9 @@ const handleBackButton = () => {
 }
 const handleContinueButton = () => {
     if (step.value < formLength) {
+        if (step.value === 2) {
+            form.value.age = dayjs().year() - form.value.birthDate.year
+        }
         if (step.value === 9) {
             form.value.calcFatPercent =
                 form.value.gender === "FEMALE"
@@ -184,13 +196,6 @@ const handleContinueButton = () => {
             justify-content: center;
             text-align: center;
         }
-    }
-
-    .footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
     }
 }
 </style>

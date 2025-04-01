@@ -1,34 +1,140 @@
 <template>
     <div class="page q-pa-md">
-        <time-scroll-picker
-            v-model:hour="form.riseTime.hour"
-            v-model:minute="form.riseTime.minute"
-        />
-        <date-scroll-picker
-            v-model:day="form.birthDate.day"
-            v-model:month="form.birthDate.month"
-            v-model:year="form.birthDate.year"
-        />
+        <div class="progress">
+            <back-arrow-button @click="handleBackButton" />
+            <q-linear-progress :value="progress" rounded size="8px" class="q-mr-sm" />
+        </div>
+        <div class="content">
+            <!--    Время подъема    -->
+            <div v-if="step === 0" class="hello-block step">
+                <h1>Во сколько вы проснулись?</h1>
+                <time-scroll-picker
+                    v-model:hour="form.riseTime.hour"
+                    v-model:minute="form.riseTime.minute"
+                />
+            </div>
+            <!--    Время отбоя    -->
+            <div v-if="step === 1" class="step">
+                <h1>Во сколько легли спать?</h1>
+            </div>
+            <!--    Физическое состояние    -->
+            <div v-if="step === 2" class="step">
+                <h1>Как вы себя чувствуете?</h1>
+                <p>Оцените ваше физическое состояние</p>
+                <row-select-group v-model="form.physicalState" :options="physicalOptions" />
+            </div>
+            <!--    Эмоциональное состояние    -->
+            <div v-if="step === 3" class="step">
+                <h1>Какое у вас настроение?</h1>
+                <p>Оцените ваше эмоциональное состояние</p>
+            </div>
+            <!--    Кол-во воды    -->
+            <div v-if="step === 4" class="step">
+                <h1>Сколько воды вы выпили?</h1>
+                <p>В стакане воды содержится около 200 мл</p>
+                <scroll-picker :options="waterOptions" v-model="form.waterAmount" />
+            </div>
+            <!--    Активность шаги    -->
+            <div v-if="step === 5" class="step">
+                <h1>Сколько шагов сделали?</h1>
+                <form-input
+                    v-model="form.activitySteps"
+                    placeholder="Введите число"
+                    inputmode="numeric"
+                    @enter="handleContinueButton"
+                />
+            </div>
+            <!--    Активность тип    -->
+            <div v-if="step === 6" class="step">
+                <h1>Какая у вас была активность?</h1>
+                <p>Выберите одну из активностей, если ничего не подходит, напишите свой вариант в поле ниже</p>
+            </div>
+            <!--    Вес    -->
+            <div v-if="step === 7" class="step">
+                <h1>Сколько вы весите?</h1>
+                <p>Важно! Взвешивайтесь утром натощак, желательно в нижнем белье</p>
+            </div>
+        </div>
+        <true-main-button label="Продолжить" @click="handleContinueButton" />
     </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from "vue"
+<script setup lang="ts">
+import { computed, ref } from "vue"
+import "vue-scroll-picker/style.css"
+import BackArrowButton from "components/buttons/BackArrowButton.vue"
+import FormInput from "components/form/input/FormInput.vue"
+import {
+    generateWaterOptions, getPhysicalOptions,
+} from "pages/forms/helpers"
+import ScrollPicker from "components/form/picker/ScrollPicker.vue"
+import { useRouter } from "vue-router"
+import { DailyReportFormType } from "./types"
+import TrueMainButton from "components/buttons/TrueMainButton.vue"
 import TimeScrollPicker from "components/form/picker/TimeScrollPicker.vue"
-import DateScrollPicker from "components/form/picker/DateScrollPicker.vue"
+import RowSelectGroup from "components/groups/RowSelectGroup.vue"
 
-const form = ref({
+const router = useRouter()
+
+const step = ref(0)
+const progress = computed(() => step.value / formLength)
+
+const form = ref<DailyReportFormType>({
     riseTime: {
         hour: "08",
         minute: "00",
     },
-    birthDate: {
-        day: 15,
-        month: 5,
-        year: 1980,
+    sleepTime: {
+        hour: "22",
+        minute: "00",
     },
+    physicalState: undefined,
+    emotionalState: undefined,
+    waterAmount: 1000,
+    activitySteps: undefined,
+    activityType: undefined,
+    weight: undefined,
 })
+const formLength = Object.values(form.value).length
+const waterOptions = generateWaterOptions()
+const physicalOptions = getPhysicalOptions()
+
+const handleBackButton = () => {
+    if (step.value > 0) {
+        step.value--
+    } else {
+        router.push("/")
+    }
+}
+const handleContinueButton = () => {
+    if (step.value < formLength) {
+        step.value++
+    } else {
+        router.push("/")
+    }
+}
 </script>
 
 <style lang="scss" scoped>
+.page {
+    display: flex;
+    flex-direction: column;
+
+    .progress {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .content {
+        display: flex;
+        padding-top: 40px;
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+    }
+}
 </style>

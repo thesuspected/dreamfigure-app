@@ -1,5 +1,5 @@
 <template>
-    <base-button class="action-btn" color="primary" full-width :label="label" :icon="icon" />
+    <base-button class="action-btn" color="primary" :full-width="fullWidth" :label="label" :icon="icon" />
 </template>
 
 <script setup lang="ts">
@@ -13,6 +13,10 @@ defineProps({
     icon: {
         type: String,
         default: undefined,
+    },
+    fullWidth: {
+        type: Boolean,
+        default: true,
     },
 })
 </script>

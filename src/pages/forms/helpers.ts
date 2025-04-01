@@ -67,3 +67,38 @@ export const calculateFemaleBodyFatPercentage = (form: InitialFormType) => {
         450
     ).toFixed(2)
 }
+
+export const generateWaterOptions = () => {
+    const start = 1
+    const end = 30
+    const range = [...Array(end - start + 1).keys()].map((x) => (x + start) * 100)
+    return range.map((number) => ({ label: `${number} мл`, value: number }))
+}
+
+export const getPhysicalOptions = () => [
+    {
+        label: "Истощение",
+        value: "exhaustion",
+        emoji: "🥀",
+    },
+    {
+        label: "Утомление",
+        value: "fatigue",
+        emoji: "💢",
+    },
+    {
+        label: "Нейтральность",
+        value: "neutrality",
+        emoji: "🔆",
+    },
+    {
+        label: "Бодрость",
+        value: "courage",
+        emoji: "💪",
+    },
+    {
+        label: "Энергичность",
+        value: "energy",
+        emoji: "⚡️",
+    },
+]
