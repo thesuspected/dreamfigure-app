@@ -26,10 +26,7 @@
             <div v-if="step === 3" class="step">
                 <h1>Выберите ваш пол</h1>
                 <p>Эти данные помогут сделать план более персональным</p>
-                <ButtonGroup
-                    v-model="form.gender"
-                    :options="genderOptions"
-                />
+                <ButtonGroup v-model="form.gender" :options="genderOptions" />
             </div>
             <!--    Рост    -->
             <div v-if="step === 4" class="step">
@@ -62,8 +59,16 @@
                 <p>Эти данные необходимы для расчета ваших показателей</p>
                 <scroll-picker :options="neckLengthOptions" v-model="form.neckLength" />
             </div>
-
+            <!--    Окружность бёдер   -->
+            <div v-if="step === 9" class="step">
+                <h1>Какая у вас окружность бёдер?</h1>
+                <p>Эти данные необходимы для расчета ваших показателей</p>
+                <scroll-picker :options="hipsLengthOptions" v-model="form.hipsLength" />
+            </div>
             <!--    Калькулятор: Процент жира    -->
+            <div v-if="step === 10" class="step">
+                <p><span>Процент телесного жира:</span></p>
+            </div>
             <!--    Калькулятор: Идеальный вес    -->
         </div>
         <MainButton text="Продолжить" @click="handleContinueButton" />
@@ -83,6 +88,8 @@ import {
     generateInitialWeightOptions,
     generateNeckLength,
     generateWaistLength,
+    calculateBodyFatPercentage,
+    generateHipsLength,
 } from "pages/forms/helpers"
 import ScrollPicker from "components/form/input/ScrollPicker.vue"
 import { useRouter } from "vue-router"
@@ -102,6 +109,7 @@ const form = ref({
     currentWeight: 60,
     waistLength: 80,
     neckLength: 40,
+    hipsLength: 80,
 })
 const formLength = Object.values(form.value).length
 const ageOptions = generateAgeOptions()
@@ -110,6 +118,7 @@ const initialWeightOptions = generateInitialWeightOptions()
 const currentWeightOptions = generateCurrentWeightOptions()
 const waistLengthOptions = generateWaistLength()
 const neckLengthOptions = generateNeckLength()
+const hipsLengthOptions = generateHipsLength()
 const genderOptions = [
     {
         name: "Мужской",
@@ -122,7 +131,7 @@ const genderOptions = [
         icon: "fa-solid fa-venus",
     },
 ]
-
+//const bodyFatPercentage = calculateBodyFatPercentage(form.waistLength, form.neckLength, form.height)
 const handleBackButton = () => {
     if (step.value > 0) {
         step.value--
