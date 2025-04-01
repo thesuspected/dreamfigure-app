@@ -17,6 +17,8 @@
             :hint="hint"
             :readonly="readonly"
             :disable="disabled"
+            :reverse-fill-mask="reverseFillMask"
+            :unmasked-value="unmaskedValue"
             @update:model-value="updateModelValue"
             @keyup="onKeyup"
             @click="handleClick"
@@ -42,7 +44,7 @@ import TextLabel from "components/form/text/TextLabel.vue"
 import BaseIcon from "components/icon/BaseIcon.vue"
 import { PropType, ref } from "vue"
 import useClickOutside from "src/hooks/useClickOutside"
-import { useHapticFeedback } from "vue-tg"
+import { useHapticFeedback } from "vue-tg/8.0"
 
 const props = defineProps({
     modelValue: {
@@ -75,6 +77,12 @@ const props = defineProps({
     },
     mask: {
         type: String,
+    },
+    reverseFillMask: {
+        type: Boolean,
+    },
+    unmaskedValue: {
+        type: Boolean,
     },
     prefix: {
         type: String,
@@ -123,6 +131,10 @@ const blurInputRef = () => {
     inputRef.value.blur()
 }
 
+const focusInputRef = () => {
+    inputRef.value.focus()
+}
+
 const onKeyup = (event: KeyboardEvent) => {
     const { key } = event
     if (key === "Enter") {
@@ -131,12 +143,13 @@ const onKeyup = (event: KeyboardEvent) => {
     }
 }
 
-const hapticFeedback = useHapticFeedback()
+const { impactOccurred } = useHapticFeedback()
 const handleClick = () => {
-    hapticFeedback.impactOccurred!("light")
+    impactOccurred("light")
 }
 
 useClickOutside({ elRef: inputRef, callback: blurInputRef })
+defineExpose({ inputRef, focusInputRef })
 
 </script>
 

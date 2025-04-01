@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { onBeforeMount, onMounted } from "vue"
-import { useHapticFeedback, useMainButton, useMiniApp, useTheme, useViewport } from "vue-tg"
+import { useHapticFeedback, useMainButton, useMiniApp, useTheme, useViewport } from "vue-tg/8.0"
 import dayjs from "dayjs"
 import calendar from "dayjs/plugin/calendar"
 import updateLocale from "dayjs/plugin/updateLocale"
@@ -14,9 +14,9 @@ const miniApp = useMiniApp()
 const viewport = useViewport()
 const theme = useTheme()
 const mainButton = useMainButton()
-const hapticFeedback = useHapticFeedback()
+const { impactOccurred } = useHapticFeedback()
 mainButton.onClick(() => {
-    hapticFeedback.impactOccurred!("medium")
+    impactOccurred("medium")
 })
 miniApp.ready()
 theme.headerColor.value = "#ffffff"

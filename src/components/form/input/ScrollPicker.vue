@@ -1,7 +1,7 @@
 <template>
     <VueScrollPicker
         :model-value="modelValue"
-        :options="options"
+        :options="localeOptions"
         :drag-sensitivity="0.6"
         :touch-sensitivity="0.6"
         :wheel-sensitivity="0.8"
@@ -13,11 +13,11 @@
 
 <script lang="ts" setup>
 import { VueScrollPicker } from "vue-scroll-picker"
-import { PropType, ref } from "vue"
+import { computed, PropType, ref } from "vue"
 import { OptionsType } from "components/form/input/types"
-import { useHapticFeedback } from "vue-tg"
+import { useHapticFeedback } from "vue-tg/8.0"
 
-defineProps({
+const props = defineProps({
     modelValue: {
         type: [String, Number] as PropType<string | number | undefined>,
     },
@@ -27,14 +27,15 @@ defineProps({
 })
 
 const emit = defineEmits(["update:model-value"])
-const hapticFeedback = useHapticFeedback()
+const { impactOccurred } = useHapticFeedback()
+const localeOptions = computed(() => props.options?.map((item) => ({ name: item.label, value: item.value })))
 const updateModelValue = (value?: string) => {
     emit("update:model-value", value)
 }
 const lastMoveValue = ref()
 const handleMove = (value: number) => {
     if (value !== lastMoveValue.value) {
-        hapticFeedback.impactOccurred!("light")
+        impactOccurred("light")
         lastMoveValue.value = value
     }
 }

@@ -120,12 +120,12 @@ const neckLengthOptions = generateNeckLength()
 const hipsLengthOptions = generateHipsLength()
 const genderOptions = [
     {
-        name: "Мужской",
+        label: "Мужской",
         value: "MALE",
         icon: "fa-solid fa-mars",
     },
     {
-        name: "Женский",
+        label: "Женский",
         value: "FEMALE",
         icon: "fa-solid fa-venus",
     },

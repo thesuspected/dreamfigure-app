@@ -25,12 +25,12 @@
 </template>
 
 <script setup lang="ts">
-import { useWebAppHapticFeedback } from "vue-tg"
+import { useHapticFeedback } from "vue-tg/8.0"
 import { type PropType } from "vue"
 
 const props = defineProps({
     label: {
-        type: String,
+        type: String as PropType<string | undefined>,
         default: undefined,
     },
     color: {
@@ -41,7 +41,7 @@ const props = defineProps({
         type: String,
     },
     icon: {
-        type: String,
+        type: String as PropType<string | undefined>,
     },
     iconRight: {
         type: String,
@@ -84,7 +84,7 @@ const props = defineProps({
         default: "medium",
     },
 })
-const { impactOccurred } = useWebAppHapticFeedback()
+const { impactOccurred } = useHapticFeedback()
 
 const handleClickButton = () => {
     if (props.defaultHaptic) {

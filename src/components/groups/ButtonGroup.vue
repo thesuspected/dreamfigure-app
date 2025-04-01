@@ -6,7 +6,7 @@
             :color="modelValue === item.value ? 'primary' : 'grey-4'"
             :text-color="modelValue === item.value ? 'white' : 'dark'"
             :icon="item.icon"
-            :label="item.name"
+            :label="item.label"
             @click="handleClick(item)"
         />
     </div>

@@ -3,9 +3,11 @@
 </template>
 
 <script setup lang="ts">
+import { PropType } from "vue"
+
 defineProps({
     label: {
-        type: String,
+        type: String as PropType<string | undefined>,
         default: undefined,
     },
 })
@@ -19,5 +21,6 @@ defineProps({
     line-height: 1rem;
     padding-bottom: $sm;
     padding-left: $xs;
+    color: $sub;
 }
 </style>
