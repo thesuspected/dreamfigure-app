@@ -30,7 +30,7 @@ import { type PropType } from "vue"
 
 const props = defineProps({
     label: {
-        type: String as PropType<string | undefined>,
+        type: String,
         default: undefined,
     },
     color: {
@@ -41,7 +41,7 @@ const props = defineProps({
         type: String,
     },
     icon: {
-        type: String as PropType<string | undefined>,
+        type: String,
     },
     iconRight: {
         type: String,

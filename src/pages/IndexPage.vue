@@ -2,6 +2,7 @@
     <div class="page q-pa-md">
         <action-button label="Начальная форма" @click="goToInitialForm" />
         <action-button label="Добавить блюдо" @click="goToNutritionForm" />
+        <action-button label="Добавить отчет" @click="goToDailyReportForm" />
     </div>
 </template>
 
@@ -17,6 +18,9 @@ const goToInitialForm = () => {
 }
 const goToNutritionForm = () => {
     router.push({ name: RouteNames.ADD_NUTRITION_FORM })
+}
+const goToDailyReportForm = () => {
+    router.push({ name: RouteNames.DAILY_REPORT_FORM })
 }
 </script>
 

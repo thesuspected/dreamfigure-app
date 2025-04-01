@@ -1,5 +1,5 @@
 export interface InitialFormType {
-    callName: string
+    callName?: string
     gender: string
     age: number
     height: number
@@ -8,5 +8,5 @@ export interface InitialFormType {
     waistLength: number
     neckLength: number
     hipsLength: number
-    calcFatPersent: number
+    calcFatPercent?: string
 }

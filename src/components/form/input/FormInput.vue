@@ -41,14 +41,14 @@
 
 <script setup lang="ts">
 import TextLabel from "components/form/text/TextLabel.vue"
-import BaseIcon from "components/icon/BaseIcon.vue"
-import { PropType, ref } from "vue"
+import { ref } from "vue"
 import useClickOutside from "src/hooks/useClickOutside"
 import { useHapticFeedback } from "vue-tg/8.0"
+import BaseIcon from "components/icon/BaseIcon.vue"
 
 const props = defineProps({
     modelValue: {
-        type: [String, Number] as PropType<string | number | undefined>,
+        type: [String, Number],
     },
     label: {
         type: String,

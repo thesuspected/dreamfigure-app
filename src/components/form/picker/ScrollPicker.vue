@@ -19,7 +19,7 @@ import { useHapticFeedback } from "vue-tg/8.0"
 
 const props = defineProps({
     modelValue: {
-        type: [String, Number] as PropType<string | number | undefined>,
+        type: [String, Number],
     },
     options: {
         type: Array as PropType<OptionsType[]>,

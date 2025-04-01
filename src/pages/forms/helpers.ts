@@ -58,7 +58,7 @@ export const generateHipsLength = () => {
 }
 export const calculateMaleBodyFatPercentage = (form: InitialFormType) => {
     const { waistLength, neckLength, height } = form
-    return 495 / (1.0324 - 0.19077 * Math.log10(waistLength - neckLength) + 0.15456 * Math.log10(height)) - 450
+    return (495 / (1.0324 - 0.19077 * Math.log10(waistLength - neckLength) + 0.15456 * Math.log10(height)) - 450).toFixed(2)
 }
 export const calculateFemaleBodyFatPercentage = (form: InitialFormType) => {
     const { waistLength, neckLength, height, hipsLength } = form

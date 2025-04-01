@@ -20,7 +20,7 @@ import TextLabel from "components/form/text/TextLabel.vue"
 
 defineProps({
     modelValue: {
-        type: String as PropType<string | undefined>,
+        type: String,
     },
     options: {
         type: Array as PropType<OptionsType[]>,

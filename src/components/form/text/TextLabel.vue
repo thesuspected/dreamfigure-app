@@ -3,11 +3,10 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from "vue"
 
 defineProps({
     label: {
-        type: String as PropType<string | undefined>,
+        type: String,
         default: undefined,
     },
 })
