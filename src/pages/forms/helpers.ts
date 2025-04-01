@@ -54,8 +54,14 @@ export const generateHipsLength = () => {
     const range = [...Array(end - start + 1).keys()].map((x) => x + start)
     return range.map((number) => ({ name: `${number} см`, value: number }))
 }
-export const calculateBodyFatPercentage = (form) => {
+export const calculateMaleBodyFatPercentage = (form) => {
     const { waistLength, neckLength, height } = form
     const result = 495 / (1.0324 - 0.19077 * Math.log10(waistLength - neckLength) + 0.15456 * Math.log10(height)) - 450
+    return result
+}
+export const calculateFemaleBodyFatPercentage = (form) => {
+    const { waistLength, neckLength, height, hipsLength } = form
+    const result =
+        495 / (1.29579 - 0.35004 * Math.log10(waistLength + hipsLength - neckLength) + 0.221 * Math.log10(height)) - 450
     return result
 }

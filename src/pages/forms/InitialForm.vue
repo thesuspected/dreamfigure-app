@@ -88,7 +88,6 @@ import {
     generateInitialWeightOptions,
     generateNeckLength,
     generateWaistLength,
-    calculateBodyFatPercentage,
     generateHipsLength,
 } from "pages/forms/helpers"
 import ScrollPicker from "components/form/input/ScrollPicker.vue"
@@ -131,7 +130,7 @@ const genderOptions = [
         icon: "fa-solid fa-venus",
     },
 ]
-//const bodyFatPercentage = calculateBodyFatPercentage(form.waistLength, form.neckLength, form.height)
+
 const handleBackButton = () => {
     if (step.value > 0) {
         step.value--
