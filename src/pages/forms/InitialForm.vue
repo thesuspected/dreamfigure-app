@@ -67,7 +67,8 @@
             </div>
             <!--    Калькулятор: Процент жира    -->
             <div v-if="step === 10" class="step">
-                <p><span>Процент телесного жира:</span></p>
+                <p>Процент телесного жира:</p>
+                <h1>{{ form.calcFatPersent }} %</h1>
             </div>
             <!--    Калькулятор: Идеальный вес    -->
         </div>
@@ -89,17 +90,20 @@ import {
     generateNeckLength,
     generateWaistLength,
     generateHipsLength,
+    calculateMaleBodyFatPercentage,
+    calculateFemaleBodyFatPercentage,
 } from "pages/forms/helpers"
 import ScrollPicker from "components/form/input/ScrollPicker.vue"
 import { useRouter } from "vue-router"
 import ButtonGroup from "src/components/groups/ButtonGroup.vue"
+import { InitialFormType } from "./types"
 
 const router = useRouter()
 
 const step = ref(0)
 const progress = computed(() => step.value / formLength)
 
-const form = ref({
+const form = ref<InitialFormType>({
     callName: undefined,
     gender: "FEMALE",
     age: 29,
@@ -109,6 +113,7 @@ const form = ref({
     waistLength: 80,
     neckLength: 40,
     hipsLength: 80,
+    calcFatPersent: NaN,
 })
 const formLength = Object.values(form.value).length
 const ageOptions = generateAgeOptions()
@@ -140,6 +145,12 @@ const handleBackButton = () => {
 }
 const handleContinueButton = () => {
     if (step.value < formLength) {
+        if (step.value === 9) {
+            form.value.calcFatPersent =
+                form.value.gender === "FEMALE"
+                    ? calculateFemaleBodyFatPercentage(form.value)
+                    : calculateFemaleBodyFatPercentage(form.value)
+        }
         step.value++
     } else {
         router.push("/")
