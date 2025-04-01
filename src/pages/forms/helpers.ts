@@ -1,3 +1,5 @@
+import { InitialFormType } from "./types"
+
 export const generateAgeOptions = () => {
     const start = 14
     const end = 100
@@ -54,11 +56,14 @@ export const generateHipsLength = () => {
     const range = [...Array(end - start + 1).keys()].map((x) => x + start)
     return range.map((number) => ({ label: `${number} см`, value: number }))
 }
-export const calculateMaleBodyFatPercentage = (form) => {
+export const calculateMaleBodyFatPercentage = (form: InitialFormType) => {
     const { waistLength, neckLength, height } = form
     return 495 / (1.0324 - 0.19077 * Math.log10(waistLength - neckLength) + 0.15456 * Math.log10(height)) - 450
 }
-export const calculateFemaleBodyFatPercentage = (form) => {
+export const calculateFemaleBodyFatPercentage = (form: InitialFormType) => {
     const { waistLength, neckLength, height, hipsLength } = form
-    return 495 / (1.29579 - 0.35004 * Math.log10(waistLength + hipsLength - neckLength) + 0.221 * Math.log10(height)) - 450
+    return (
+        495 / (1.29579 - 0.35004 * Math.log10(waistLength + hipsLength - neckLength) + 0.221 * Math.log10(height)) -
+        450
+    ).toFixed(2)
 }
