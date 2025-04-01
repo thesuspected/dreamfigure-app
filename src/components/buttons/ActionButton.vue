@@ -4,14 +4,15 @@
 
 <script setup lang="ts">
 import BaseButton from "components/buttons/BaseButton.vue"
+import { PropType } from "vue"
 
 defineProps({
     label: {
-        type: String,
+        type: String as PropType<string | undefined>,
         default: undefined,
     },
     icon: {
-        type: String,
+        type: String as PropType<string | undefined>,
         default: undefined,
     },
 })
