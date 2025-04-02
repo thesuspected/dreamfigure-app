@@ -8,14 +8,12 @@
             <!--    Время подъема    -->
             <div v-if="step === 0" class="hello-block step">
                 <h1>Во сколько вы проснулись?</h1>
-                <time-scroll-picker
-                    v-model:hour="form.riseTime.hour"
-                    v-model:minute="form.riseTime.minute"
-                />
+                <time-scroll-picker v-model:hour="form.riseTime.hour" v-model:minute="form.riseTime.minute" />
             </div>
             <!--    Время отбоя    -->
             <div v-if="step === 1" class="step">
                 <h1>Во сколько легли спать?</h1>
+                <time-scroll-picker v-model:hour="form.sleepTime.hour" v-model:minute="form.sleepTime.minute" />
             </div>
             <!--    Физическое состояние    -->
             <div v-if="step === 2" class="step">
@@ -27,6 +25,7 @@
             <div v-if="step === 3" class="step">
                 <h1>Какое у вас настроение?</h1>
                 <p>Оцените ваше эмоциональное состояние</p>
+                <row-select-group v-model="form.emotionalState" :options="emotionalOptions" />
             </div>
             <!--    Кол-во воды    -->
             <div v-if="step === 4" class="step">
@@ -51,11 +50,23 @@
             <div v-if="step === 6" class="step">
                 <h1>Какая у вас была активность?</h1>
                 <p>Выберите одну из активностей, если ничего не подходит, напишите свой вариант в поле ниже</p>
+                <row-select-group v-model="form.activityType" :options="activityTypeOptions" />
             </div>
             <!--    Вес    -->
             <div v-if="step === 7" class="step">
                 <h1>Сколько вы весите?</h1>
                 <p>Важно! Взвешивайтесь утром натощак, желательно в нижнем белье</p>
+                <form-input
+                    ref="weightRef"
+                    v-model="form.weight"
+                    inputmode="numeric"
+                    label="Вес"
+                    placeholder="0 кг"
+                    mask="##.## кг"
+                    reverse-fill-mask
+                    unmasked-value
+                    @enter="weightRef.focusInputRef()"
+                />
             </div>
         </div>
         <true-main-button label="Продолжить" @click="handleContinueButton" />
@@ -68,7 +79,10 @@ import "vue-scroll-picker/style.css"
 import BackArrowButton from "components/buttons/BackArrowButton.vue"
 import FormInput from "components/form/input/FormInput.vue"
 import {
-    generateWaterOptions, getPhysicalOptions,
+    generateWaterOptions,
+    getActivityTypeOptions,
+    getEmotionalOptions,
+    getPhysicalOptions,
 } from "pages/forms/helpers"
 import ScrollPicker from "components/form/picker/ScrollPicker.vue"
 import { useRouter } from "vue-router"
@@ -101,8 +115,10 @@ const form = ref<DailyReportFormType>({
 const formLength = Object.values(form.value).length
 const waterOptions = generateWaterOptions()
 const physicalOptions = getPhysicalOptions()
+const emotionalOptions = getEmotionalOptions()
 const getGlassCount = computed(() => form.value.waterAmount / 200)
-
+const activityTypeOptions = getActivityTypeOptions()
+const weightRef = ref()
 const handleBackButton = () => {
     if (step.value > 0) {
         step.value--

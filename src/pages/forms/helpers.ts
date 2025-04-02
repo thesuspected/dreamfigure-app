@@ -58,7 +58,10 @@ export const generateHipsLength = () => {
 }
 export const calculateMaleBodyFatPercentage = (form: InitialFormType) => {
     const { waistLength, neckLength, height } = form
-    return (495 / (1.0324 - 0.19077 * Math.log10(waistLength - neckLength) + 0.15456 * Math.log10(height)) - 450).toFixed(2)
+    return (
+        495 / (1.0324 - 0.19077 * Math.log10(waistLength - neckLength) + 0.15456 * Math.log10(height)) -
+        450
+    ).toFixed(2)
 }
 export const calculateFemaleBodyFatPercentage = (form: InitialFormType) => {
     const { waistLength, neckLength, height, hipsLength } = form
@@ -100,5 +103,64 @@ export const getPhysicalOptions = () => [
         label: "Энергичность",
         value: "energy",
         emoji: "⚡️",
+    },
+]
+export const getEmotionalOptions = () => [
+    {
+        label: "Уныние",
+        value: "despondency",
+        emoji: "😢",
+    },
+    {
+        label: "Грусть",
+        value: "sadness",
+        emoji: "😔",
+    },
+    {
+        label: "Нейтральность",
+        value: "neutrality",
+        emoji: "😌",
+    },
+    {
+        label: "Радость",
+        value: "joy",
+        emoji: "😃",
+    },
+    {
+        label: "Счастье",
+        value: "happiness",
+        emoji: "🤩",
+    },
+]
+export const getActivityTypeOptions = () => [
+    {
+        label: "Прогулка",
+        value: "walking",
+        emoji: "🚶",
+    },
+    {
+        label: "Зарядка",
+        value: "exercise",
+        emoji: "🤸",
+    },
+    {
+        label: "Тренировка",
+        value: "training",
+        emoji: "🏋️",
+    },
+    {
+        label: "Плавание",
+        value: "swimming",
+        emoji: "🏊",
+    },
+    {
+        label: "Велосипед",
+        value: "bicycle",
+        emoji: "🚴",
+    },
+    {
+        label: "Другое",
+        value: "another",
+        emoji: "🏓",
     },
 ]
