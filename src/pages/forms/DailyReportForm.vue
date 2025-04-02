@@ -31,8 +31,11 @@
             <!--    Кол-во воды    -->
             <div v-if="step === 4" class="step">
                 <h1>Сколько воды вы выпили?</h1>
-                <p>В стакане воды содержится около 200 мл</p>
+                <p>В стакане воды содержится ~200 мл</p>
                 <scroll-picker :options="waterOptions" v-model="form.waterAmount" />
+                <q-img src="src/assets/glass.png" class="glass-img">
+                    <h1>{{ getGlassCount }}</h1>
+                </q-img>
             </div>
             <!--    Активность шаги    -->
             <div v-if="step === 5" class="step">
@@ -98,6 +101,7 @@ const form = ref<DailyReportFormType>({
 const formLength = Object.values(form.value).length
 const waterOptions = generateWaterOptions()
 const physicalOptions = getPhysicalOptions()
+const getGlassCount = computed(() => form.value.waterAmount / 200)
 
 const handleBackButton = () => {
     if (step.value > 0) {
@@ -134,6 +138,19 @@ const handleContinueButton = () => {
             display: flex;
             flex-direction: column;
             width: 100%;
+
+            .glass-img {
+                width: 100px;
+                align-self: center;
+                margin-top: 40px;
+                border-bottom: 3px solid $light;
+
+                h1 {
+                    text-align: center;
+                    margin-top: 30px;
+                    color: $primary;
+                }
+            }
         }
     }
 }
