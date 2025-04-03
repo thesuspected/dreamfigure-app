@@ -57,7 +57,6 @@
                 <h1>Сколько вы весите?</h1>
                 <p>Важно! Взвешивайтесь утром натощак, желательно в нижнем белье</p>
                 <form-input
-                    ref="weightRef"
                     v-model="form.weight"
                     inputmode="numeric"
                     label="Вес"
@@ -65,7 +64,6 @@
                     mask="##.## кг"
                     reverse-fill-mask
                     unmasked-value
-                    @enter="weightRef.focusInputRef()"
                 />
             </div>
         </div>
@@ -118,7 +116,7 @@ const physicalOptions = getPhysicalOptions()
 const emotionalOptions = getEmotionalOptions()
 const getGlassCount = computed(() => form.value.waterAmount / 200)
 const activityTypeOptions = getActivityTypeOptions()
-const weightRef = ref()
+
 const handleBackButton = () => {
     if (step.value > 0) {
         step.value--
