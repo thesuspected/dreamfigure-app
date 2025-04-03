@@ -32,7 +32,7 @@
                 <h1>Сколько воды вы выпили?</h1>
                 <p>В стакане воды содержится ~200 мл</p>
                 <scroll-picker :options="waterOptions" v-model="form.waterAmount" />
-                <q-img src="src/assets/glass.png" class="glass-img">
+                <q-img src="/glass.png" class="glass-img">
                     <h1>{{ getGlassCount }}</h1>
                 </q-img>
             </div>
