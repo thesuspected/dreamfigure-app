@@ -30,5 +30,6 @@ export interface DailyReportFormType {
     waterAmount: number
     activitySteps?: string
     activityType?: string
+    activityAlternative?: string
     weight?: string
 }

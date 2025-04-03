@@ -49,8 +49,16 @@
             <!--    Активность тип    -->
             <div v-if="step === 6" class="step">
                 <h1>Какая у вас была активность?</h1>
-                <p>Выберите одну из активностей, если ничего не подходит, напишите свой вариант в поле ниже</p>
+                <p>Выберите одну из активностей, если ничего не подходит, нажмите "Другое" и напишите свой вариант в
+                    поле ниже</p>
                 <row-select-group v-model="form.activityType" :options="activityTypeOptions" />
+                <form-input
+                    v-if="form.activityType === 'another'"
+                    v-model="form.activityAlternative"
+                    class="q-mt-md"
+                    label="Активность"
+                    placeholder="Введите название"
+                />
             </div>
             <!--    Вес    -->
             <div v-if="step === 7" class="step">
@@ -62,7 +70,7 @@
                     label="Вес"
                     placeholder="0 кг"
                     mask="##.## кг"
-                    reverse-fill-mask
+                    fill-mask
                     unmasked-value
                 />
             </div>
@@ -108,6 +116,7 @@ const form = ref<DailyReportFormType>({
     waterAmount: 1000,
     activitySteps: undefined,
     activityType: undefined,
+    activityAlternative: undefined,
     weight: undefined,
 })
 const formLength = Object.values(form.value).length

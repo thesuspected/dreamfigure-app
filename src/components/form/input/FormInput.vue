@@ -17,6 +17,7 @@
             :hint="hint"
             :readonly="readonly"
             :disable="disabled"
+            :fill-mask="fillMask"
             :reverse-fill-mask="reverseFillMask"
             :unmasked-value="unmaskedValue"
             @update:model-value="updateModelValue"
@@ -79,6 +80,9 @@ const props = defineProps({
         type: String,
     },
     reverseFillMask: {
+        type: Boolean,
+    },
+    fillMask: {
         type: Boolean,
     },
     unmaskedValue: {
