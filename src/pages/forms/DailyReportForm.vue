@@ -51,31 +51,17 @@
                 <h1>Какая у вас была активность?</h1>
                 <p>Выберите одну из активностей, если ничего не подходит, нажмите "Другое" и напишите свой вариант в
                     поле ниже</p>
-                <row-select-group v-model="form.activityType" :options="activityTypeOptions" />
+                <row-select-group v-model="form.activityTypes" :options="activityTypeOptions" />
                 <form-input
-                    v-if="form.activityType === 'another'"
-                    v-model="form.activityAlternative"
+                    v-if="form.activityTypes === 'another'"
+                    v-model="form.activityText"
                     class="q-mt-md"
                     label="Активность"
                     placeholder="Введите название"
                 />
             </div>
-            <!--    Вес    -->
-            <div v-if="step === 7" class="step">
-                <h1>Сколько вы весите?</h1>
-                <p>Важно! Взвешивайтесь утром натощак, желательно в нижнем белье</p>
-                <form-input
-                    v-model="form.weight"
-                    inputmode="numeric"
-                    label="Вес"
-                    placeholder="0 кг"
-                    mask="##.## кг"
-                    fill-mask
-                    unmasked-value
-                />
-            </div>
         </div>
-        <true-main-button label="Продолжить" @click="handleContinueButton" />
+        <true-main-button :label="step !== 6 ? 'Продолжить' : 'Сохранить' " @click="handleContinueButton" />
     </div>
 </template>
 
@@ -96,6 +82,9 @@ import { DailyReportFormType } from "./types"
 import TrueMainButton from "components/buttons/TrueMainButton.vue"
 import TimeScrollPicker from "components/form/picker/TimeScrollPicker.vue"
 import RowSelectGroup from "components/groups/RowSelectGroup.vue"
+import { useMiniApp } from "vue-tg/8.0"
+import { api } from "boot/axios"
+import dayjs from "dayjs"
 
 const router = useRouter()
 
@@ -115,16 +104,30 @@ const form = ref<DailyReportFormType>({
     emotionalState: undefined,
     waterAmount: 1000,
     activitySteps: undefined,
-    activityType: undefined,
-    activityAlternative: undefined,
-    weight: undefined,
+    activityTypes: undefined,
+    activityText: null,
 })
-const formLength = Object.values(form.value).length
+const formLength = 6
 const waterOptions = generateWaterOptions()
 const physicalOptions = getPhysicalOptions()
 const emotionalOptions = getEmotionalOptions()
 const getGlassCount = computed(() => form.value.waterAmount / 200)
 const activityTypeOptions = getActivityTypeOptions()
+const miniApp = useMiniApp()
+
+const saveReport = async () => {
+    const { riseTime, sleepTime, activitySteps } = form.value
+    const body = {
+        ...form.value,
+        userId: 471839772,
+        date: dayjs().format("YYYY-MM-DD"),
+        activitySteps: Number(activitySteps),
+        riseTime: `${riseTime.hour}:${riseTime.minute}`,
+        sleepTime: `${sleepTime.hour}:${sleepTime.minute}`,
+    }
+    await api.post("/reports/create", body)
+    miniApp.close()
+}
 
 const handleBackButton = () => {
     if (step.value > 0) {
@@ -137,7 +140,7 @@ const handleContinueButton = () => {
     if (step.value < formLength) {
         step.value++
     } else {
-        router.push("/")
+        saveReport()
     }
 }
 </script>
@@ -174,6 +177,12 @@ const handleContinueButton = () => {
                     color: $primary;
                 }
             }
+        }
+
+        .center-block {
+            height: 60svh;
+            justify-content: center;
+            text-align: center;
         }
     }
 }

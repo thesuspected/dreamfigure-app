@@ -70,6 +70,13 @@ export const calculateFemaleBodyFatPercentage = (form: InitialFormType) => {
         450
     ).toFixed(2)
 }
+export const calculateIdealWeight = (form: InitialFormType) => {
+    const { height, gender } = form
+    const index = gender === "FEMALE" ? 21.5 : 23
+    return (
+        index * (Math.pow((height / 100), 2))
+    ).toFixed(0)
+}
 
 export const generateWaterOptions = () => {
     const start = 1
@@ -78,89 +85,105 @@ export const generateWaterOptions = () => {
     return range.map((number) => ({ label: `${number} мл`, value: number }))
 }
 
-export const getPhysicalOptions = () => [
-    {
-        label: "Истощение",
-        value: "exhaustion",
-        emoji: "🥀",
-    },
-    {
-        label: "Утомление",
-        value: "fatigue",
-        emoji: "💢",
-    },
-    {
-        label: "Нейтральность",
-        value: "neutrality",
-        emoji: "🔆",
-    },
-    {
-        label: "Бодрость",
-        value: "courage",
-        emoji: "💪",
-    },
-    {
-        label: "Энергичность",
-        value: "energy",
-        emoji: "⚡️",
-    },
-]
-export const getEmotionalOptions = () => [
-    {
-        label: "Уныние",
-        value: "despondency",
-        emoji: "😢",
-    },
-    {
-        label: "Грусть",
-        value: "sadness",
-        emoji: "😔",
-    },
-    {
-        label: "Нейтральность",
-        value: "neutrality",
-        emoji: "😌",
-    },
-    {
-        label: "Радость",
-        value: "joy",
-        emoji: "😃",
-    },
-    {
-        label: "Счастье",
-        value: "happiness",
-        emoji: "🤩",
-    },
-]
-export const getActivityTypeOptions = () => [
-    {
-        label: "Прогулка",
-        value: "walking",
-        emoji: "🚶",
-    },
-    {
-        label: "Зарядка",
-        value: "exercise",
-        emoji: "🤸",
-    },
-    {
-        label: "Тренировка",
-        value: "training",
-        emoji: "🏋️",
-    },
-    {
-        label: "Плавание",
-        value: "swimming",
-        emoji: "🏊",
-    },
-    {
-        label: "Велосипед",
-        value: "bicycle",
-        emoji: "🚴",
-    },
-    {
-        label: "Другое",
-        value: "another",
-        emoji: "🏓",
-    },
-]
+export const getPhysicalOptions = () => {
+    const values = [
+        {
+            emoji: "🥀",
+            label: "Истощение",
+        },
+        {
+            emoji: "💢",
+            label: "Утомление",
+        },
+        {
+            emoji: "🔆",
+            label: "Нейтральность",
+        },
+        {
+            emoji: "💪",
+            label: "Бодрость",
+        },
+        {
+            emoji: "⚡️",
+            label: "Энергичность",
+        },
+    ]
+    return values.map((item) => ({ ...item, value: `${item.emoji} ${item.label}` }))
+}
+export const getEmotionalOptions = () => {
+    const values = [
+        {
+            emoji: "😢",
+            label: "Уныние",
+        },
+        {
+            emoji: "😔",
+            label: "Грусть",
+        },
+        {
+            emoji: "😌",
+            label: "Нейтральность",
+        },
+        {
+            emoji: "😃",
+            label: "Радость",
+        },
+        {
+            emoji: "🤩",
+            label: "Счастье",
+        },
+    ]
+    return values.map((item) => ({ ...item, value: `${item.emoji} ${item.label}` }))
+}
+
+export const getActivityTypeOptions = () => {
+    const values = [
+        {
+            emoji: "🚶",
+            label: "Прогулка",
+        },
+        {
+            emoji: "🤸",
+            label: "Зарядка",
+        },
+        {
+            emoji: "🏋️",
+            label: "Тренировка",
+        },
+        {
+            emoji: "🏊",
+            label: "Плавание",
+        },
+        {
+            emoji: "🚴",
+            label: "Велосипед",
+        },
+        {
+            emoji: "🏓",
+            label: "Другое",
+        },
+    ]
+    return values.map((item) => ({ ...item, value: `${item.emoji} ${item.label}` }))
+}
+
+export const getFoodTypeOptions = () => {
+    const values = [
+        {
+            emoji: "🥪",
+            label: "Завтрак",
+        },
+        {
+            emoji: "🍝",
+            label: "Обед",
+        },
+        {
+            emoji: "🥗",
+            label: "Ужин",
+        },
+        {
+            emoji: "🥨",
+            label: "Перекус",
+        },
+    ]
+    return values.map((item) => ({ ...item, value: `${item.emoji} ${item.label}` }))
+}

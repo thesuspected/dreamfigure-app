@@ -6,7 +6,7 @@
         </div>
         <div class="content">
             <!--    Начальный экран    -->
-            <div v-if="step === 0" class="hello-block step">
+            <div v-if="step === 0" class="center-block step">
                 <h1>Добро пожаловать!</h1>
                 <p>Пожалуйста, заполните анкету, а мы составим для вас индивидуальный план похудения</p>
             </div>
@@ -69,14 +69,54 @@
                 <p>Эти данные необходимы для расчета ваших показателей</p>
                 <scroll-picker :options="hipsLengthOptions" v-model="form.hipsLength" />
             </div>
-            <!--    Калькулятор: Процент жира    -->
-            <div v-if="step === 10" class="step">
-                <p>Процент телесного жира:</p>
-                <h1>{{ form.calcFatPercent }} %</h1>
+            <!--    Калькулятор: Процент жира и идеальный вес    -->
+            <div v-if="step === 10" class="center-block step">
+                <h1>Почти готово!</h1>
+                <p>
+                    Мы рассчитали ваш
+                    <a
+                        class="text-primary"
+                        target="_blank"
+                        href="https://medvisor.ru/services/navy-procent-zhira-v-tele/?ysclid=m7r6mzz8ba40847423"
+                    >
+                        процент жира
+                    </a>
+                    , а также
+                    <a
+                        class="text-primary"
+                        target="_blank"
+                        href="https://institut-immunologii.ru/ozhir/imt.php"
+                    >
+                        идеальный вес
+                    </a>
+                    , формулы представлены по ссылкам
+                </p>
+                <form-input
+                    v-model="form.calcFatPercent"
+                    class="q-mt-lg"
+                    inputmode="numeric"
+                    label="Процент жира"
+                    placeholder="0 %"
+                    mask="##.## %"
+                    hint="Если вы используете умные весы, заполните это поле своим значением"
+                    fill-mask
+                    unmasked-value
+                />
+                <form-input
+                    v-model="form.calcIdealWeight"
+                    class="q-mt-xl"
+                    inputmode="numeric"
+                    label="Идеальный вес"
+                    readonly
+                    placeholder="0 кг"
+                    mask="## кг"
+                    hint="Значение рассчитывается по росту и не отражает вашу индивидуальность"
+                    fill-mask
+                    unmasked-value
+                />
             </div>
-            <!--    Калькулятор: Идеальный вес    -->
         </div>
-        <true-main-button label="Продолжить" @click="handleContinueButton" />
+        <true-main-button :label="step !== 10 ? 'Продолжить' : 'Завершить' " @click="handleContinueButton" />
     </div>
 </template>
 
@@ -93,7 +133,7 @@ import {
     generateWaistLength,
     generateHipsLength,
     calculateMaleBodyFatPercentage,
-    calculateFemaleBodyFatPercentage,
+    calculateFemaleBodyFatPercentage, calculateIdealWeight,
 } from "pages/forms/helpers"
 import ScrollPicker from "components/form/picker/ScrollPicker.vue"
 import { useRouter } from "vue-router"
@@ -102,6 +142,8 @@ import { InitialFormType } from "./types"
 import DateScrollPicker from "components/form/picker/DateScrollPicker.vue"
 import dayjs from "dayjs"
 import TrueMainButton from "components/buttons/TrueMainButton.vue"
+import { useMiniApp } from "vue-tg/8.0"
+import { api } from "boot/axios"
 
 const router = useRouter()
 
@@ -124,8 +166,9 @@ const form = ref<InitialFormType>({
     neckLength: 40,
     hipsLength: 80,
     calcFatPercent: undefined,
+    calcIdealWeight: undefined,
 })
-const formLength = Object.values(form.value).length
+const formLength = 10
 const heightOptions = generateHeightOptions()
 const initialWeightOptions = generateInitialWeightOptions()
 const currentWeightOptions = generateCurrentWeightOptions()
@@ -145,6 +188,18 @@ const genderOptions = [
     },
 ]
 
+const miniApp = useMiniApp()
+const saveInitialForm = async () => {
+    const { birthDate } = form.value
+    const body = {
+        ...form.value,
+        userId: 471839772,
+        birthDate: `${birthDate.year}-${birthDate.month}-${birthDate.day}`,
+    }
+    await api.post("/users/initial", body)
+    miniApp.close()
+}
+
 const handleBackButton = () => {
     if (step.value > 0) {
         step.value--
@@ -162,10 +217,11 @@ const handleContinueButton = () => {
                 form.value.gender === "FEMALE"
                     ? calculateFemaleBodyFatPercentage(form.value)
                     : calculateMaleBodyFatPercentage(form.value)
+            form.value.calcIdealWeight = calculateIdealWeight(form.value)
         }
         step.value++
     } else {
-        router.push("/")
+        saveInitialForm()
     }
 }
 </script>
@@ -191,7 +247,7 @@ const handleContinueButton = () => {
             width: 100%;
         }
 
-        .hello-block {
+        .center-block {
             height: 60svh;
             justify-content: center;
             text-align: center;

@@ -72,8 +72,8 @@ import { ref } from "vue"
 import FormInput from "components/form/input/FormInput.vue"
 import GridLayout from "components/grid/GridLayout.vue"
 import SelectSlider from "components/slider/SelectSlider.vue"
-import { OptionsType } from "components/form/input/types"
 import { MainButton } from "vue-tg"
+import { getFoodTypeOptions } from "pages/forms/helpers"
 
 const router = useRouter()
 
@@ -93,28 +93,7 @@ const form = ref({
     carbs: undefined,
 })
 
-const foodTypeOptions: OptionsType[] = [
-    {
-        label: "Завтрак",
-        value: "breakfast",
-        emoji: "🥪",
-    },
-    {
-        label: "Обед",
-        value: "lunch",
-        emoji: "🍝",
-    },
-    {
-        label: "Ужин",
-        value: "dinner",
-        emoji: "🥗",
-    },
-    {
-        label: "Перекус",
-        value: "snack",
-        emoji: "🥨",
-    },
-]
+const foodTypeOptions = getFoodTypeOptions()
 
 const handleBackButton = () => {
     router.back()

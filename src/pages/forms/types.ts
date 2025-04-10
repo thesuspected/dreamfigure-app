@@ -14,6 +14,7 @@ export interface InitialFormType {
     neckLength: number
     hipsLength: number
     calcFatPercent?: string
+    calcIdealWeight?: string
 }
 
 export interface DailyReportFormType {
@@ -29,7 +30,6 @@ export interface DailyReportFormType {
     emotionalState?: string
     waterAmount: number
     activitySteps?: string
-    activityType?: string
-    activityAlternative?: string
-    weight?: string
+    activityTypes?: string
+    activityText?: string
 }
