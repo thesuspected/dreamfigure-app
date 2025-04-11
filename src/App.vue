@@ -9,6 +9,7 @@ import dayjs from "dayjs"
 import calendar from "dayjs/plugin/calendar"
 import updateLocale from "dayjs/plugin/updateLocale"
 import "dayjs/locale/ru"
+import { useUserStore } from "stores/user/user"
 
 const miniApp = useMiniApp()
 const viewport = useViewport()
@@ -37,7 +38,9 @@ dayjs.updateLocale("ru", {
     },
 })
 
+const { loadUserInitData } = useUserStore()
 onBeforeMount(() => {
+    loadUserInitData()
 })
 
 onMounted(() => {

@@ -74,6 +74,10 @@ import GridLayout from "components/grid/GridLayout.vue"
 import SelectSlider from "components/slider/SelectSlider.vue"
 import { MainButton } from "vue-tg"
 import { getFoodTypeOptions } from "pages/forms/helpers"
+import { useMiniApp } from "vue-tg/8.0"
+import { useUserStore } from "stores/user/user"
+import dayjs from "dayjs"
+import { api } from "boot/axios"
 
 const router = useRouter()
 
@@ -86,7 +90,7 @@ const carbsRef = ref()
 
 const form = ref({
     foodName: undefined,
-    foodType: "breakfast",
+    foodType: "🥪 Завтрак",
     calories: undefined,
     proteins: undefined,
     fats: undefined,
@@ -98,8 +102,17 @@ const foodTypeOptions = getFoodTypeOptions()
 const handleBackButton = () => {
     router.back()
 }
-const handleMainButton = () => {
 
+const miniApp = useMiniApp()
+const { getTgUserId } = useUserStore()
+const handleMainButton = async () => {
+    const body = {
+        ...form.value,
+        userId: getTgUserId,
+        timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+    }
+    await api.post("/nutrition/create", body)
+    miniApp.close()
 }
 </script>
 

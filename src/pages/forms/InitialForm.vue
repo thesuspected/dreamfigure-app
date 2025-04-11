@@ -144,6 +144,7 @@ import dayjs from "dayjs"
 import TrueMainButton from "components/buttons/TrueMainButton.vue"
 import { useMiniApp } from "vue-tg/8.0"
 import { api } from "boot/axios"
+import { useUserStore } from "stores/user/user"
 
 const router = useRouter()
 
@@ -189,11 +190,12 @@ const genderOptions = [
 ]
 
 const miniApp = useMiniApp()
+const { getTgUserId } = useUserStore()
 const saveInitialForm = async () => {
     const { birthDate } = form.value
     const body = {
         ...form.value,
-        userId: 471839772,
+        userId: getTgUserId,
         birthDate: `${birthDate.year}-${birthDate.month}-${birthDate.day}`,
     }
     await api.post("/users/initial", body)

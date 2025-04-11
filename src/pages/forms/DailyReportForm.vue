@@ -85,6 +85,7 @@ import RowSelectGroup from "components/groups/RowSelectGroup.vue"
 import { useMiniApp } from "vue-tg/8.0"
 import { api } from "boot/axios"
 import dayjs from "dayjs"
+import { useUserStore } from "stores/user/user"
 
 const router = useRouter()
 
@@ -114,12 +115,13 @@ const emotionalOptions = getEmotionalOptions()
 const getGlassCount = computed(() => form.value.waterAmount / 200)
 const activityTypeOptions = getActivityTypeOptions()
 const miniApp = useMiniApp()
+const { getTgUserId } = useUserStore()
 
 const saveReport = async () => {
     const { riseTime, sleepTime, activitySteps } = form.value
     const body = {
         ...form.value,
-        userId: 471839772,
+        userId: getTgUserId,
         date: dayjs().format("YYYY-MM-DD"),
         activitySteps: Number(activitySteps),
         riseTime: `${riseTime.hour}:${riseTime.minute}`,
