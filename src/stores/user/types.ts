@@ -21,3 +21,24 @@ export interface TgInitData {
 export interface UserStoreType {
     initData: TgInitData
 }
+
+export interface UserInfoType {
+    id: number
+    groupId: number
+    firstName: string
+    lastName: string
+    username: string
+    isBot: boolean
+    languageCode: string
+    callName: string
+    birthDate: string
+    gender: "MALE" | "FEMALE"
+    height: number
+    initialWeight: number
+    currentWeight: number
+    neckLength: number
+    waistLength: number
+    hipsLength: number
+    calcFatPercent: number
+    calcIdealWeight: number
+}

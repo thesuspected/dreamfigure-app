@@ -4,6 +4,7 @@ import { TgInitData, UserStoreType } from "src/stores/user/types"
 import { useMiniApp } from "vue-tg"
 import { LocalStorage } from "quasar"
 import { api } from "boot/axios"
+import type { UserInfoType } from "./types"
 
 export enum UserStoreEnum {
     USER_STORE = "USER_STORE",
@@ -13,6 +14,7 @@ export enum UserStoreEnum {
 export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
     const { initData } = useMiniApp()
     const userData = ref<UserStoreType>()
+    const userInfo = ref<UserInfoType>()
     const isAdmin = ref(false)
 
     const tgUserId = computed(() => userData.value?.initData.user.id)
@@ -54,11 +56,23 @@ export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
         }
     }
 
+    const fetchUserInfo = async () => {
+        if (!tgUserId.value) return
+        try {
+            const response = await api.get<UserInfoType>(`/users/${tgUserId.value}`)
+            userInfo.value = response.data
+        } catch (error) {
+            console.error("Ошибка при получении данных пользователя:", error)
+        }
+    }
+
     return {
         userData,
         isAdmin,
         loadUserInitData,
         validateUser,
         tgUserId,
+        userInfo,
+        fetchUserInfo,
     }
 })
