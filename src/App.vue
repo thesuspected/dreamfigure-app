@@ -40,12 +40,12 @@ dayjs.updateLocale("ru", {
 
 const userStore = useUserStore()
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
     userStore.loadUserInitData()
+    await userStore.fetchUserInfo()
 })
 
 onMounted(async () => {
-    await userStore.fetchUserInfo()
     viewport.expand()
     viewport.isVerticalSwipesEnabled.value = false
     miniApp.isClosingConfirmationEnabled.value = true

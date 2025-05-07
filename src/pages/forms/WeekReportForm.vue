@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue"
+import { computed, ref, onMounted, watch } from "vue"
 import "vue-scroll-picker/style.css"
 import BackArrowButton from "components/buttons/BackArrowButton.vue"
 import ScrollPicker from "components/form/picker/ScrollPicker.vue"
@@ -82,6 +82,7 @@ import {
     calculateMaleBodyFatPercentage,
     calculateFemaleBodyFatPercentage,
 } from "pages/forms/helpers"
+import { storeToRefs } from "pinia"
 
 const router = useRouter()
 const step = ref(0)
@@ -94,7 +95,8 @@ const form = ref({
     neckLength: 40,
     hipsLength: 80,
     calcFatPercent: undefined,
-    gender: "FEMALE", // Получаем из store
+    height: 170,
+    gender: "FEMALE",
 })
 
 const currentWeightOptions = generateCurrentWeightOptions()
@@ -104,6 +106,18 @@ const hipsLengthOptions = generateHipsLength()
 
 const miniApp = useMiniApp()
 const { tgUserId } = useUserStore()
+const { user } = storeToRefs(useUserStore())
+
+watch(
+    () => user.value,
+    (newUser) => {
+        if (newUser) {
+            form.value.height = newUser.height
+            form.value.gender = newUser.gender
+        }
+    },
+    { immediate: true }
+)
 
 const saveWeekReport = async () => {
     const body = {

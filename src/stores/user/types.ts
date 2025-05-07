@@ -18,7 +18,7 @@ export interface TgInitData {
     user: TgUser
 }
 
-export interface UserStoreType {
+export interface TgUserStoreType {
     initData: TgInitData
 }
 

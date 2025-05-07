@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { computed, nextTick, ref } from "vue"
-import { TgInitData, UserStoreType } from "src/stores/user/types"
+import { TgInitData, TgUserStoreType } from "src/stores/user/types"
 import { useMiniApp } from "vue-tg"
 import { LocalStorage } from "quasar"
 import { api } from "boot/axios"
@@ -13,11 +13,11 @@ export enum UserStoreEnum {
 
 export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
     const { initData } = useMiniApp()
-    const userData = ref<UserStoreType>()
-    const userInfo = ref<UserInfoType>()
-    const isAdmin = ref(false)
+    const tgUserData = ref<TgUserStoreType>()
+    const tgUserId = computed(() => tgUserData.value?.initData.user.id)
 
-    const tgUserId = computed(() => userData.value?.initData.user.id)
+    const user = ref<UserInfoType>()
+    const isAdmin = ref(false)
 
     const loadUserInitData = () => {
         if (initData.includes("user")) {
@@ -26,7 +26,7 @@ export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
                 ...urlParams,
                 user: JSON.parse(urlParams.user),
             } as TgInitData
-            userData.value = { initData: initDataObject }
+            tgUserData.value = { initData: initDataObject }
             setLocalStorage()
         } else {
             getLocalStorage()
@@ -34,22 +34,22 @@ export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
     }
 
     const getLocalStorage = () => {
-        const local: UserStoreType | null = LocalStorage.getItem(UserStoreEnum.USER_LOCAL_STORE)
+        const local: TgUserStoreType | null = LocalStorage.getItem(UserStoreEnum.USER_LOCAL_STORE)
         if (local) {
-            userData.value = local
+            tgUserData.value = local
         }
     }
 
     const setLocalStorage = () => {
-        if (userData.value) {
-            LocalStorage.set(UserStoreEnum.USER_LOCAL_STORE, userData.value)
+        if (tgUserData.value) {
+            LocalStorage.set(UserStoreEnum.USER_LOCAL_STORE, tgUserData.value)
         }
     }
 
     const validateUser = async () => {
         await nextTick()
-        if (userData.value?.initData) {
-            const validateData = await api.post("/users/validate", userData.value.initData)
+        if (tgUserData.value?.initData) {
+            const validateData = await api.post("/users/validate", tgUserData.value.initData)
             if (validateData) {
                 // isAdmin.value = validateData.data.isAdmin
             }
@@ -60,19 +60,19 @@ export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
         if (!tgUserId.value) return
         try {
             const response = await api.get<UserInfoType>(`/users/${tgUserId.value}`)
-            userInfo.value = response.data
+            user.value = response.data
         } catch (error) {
             console.error("Ошибка при получении данных пользователя:", error)
         }
     }
 
     return {
-        userData,
+        tgUserData,
         isAdmin,
         loadUserInitData,
         validateUser,
         tgUserId,
-        userInfo,
+        user,
         fetchUserInfo,
     }
 })
