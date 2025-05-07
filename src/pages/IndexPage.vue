@@ -1,5 +1,6 @@
 <template>
     <div class="page q-pa-md">
+        <main-tab-charts />
         <action-button label="Начальная форма" @click="goToInitialForm" />
         <action-button label="Добавить блюдо" @click="goToNutritionForm" />
         <action-button label="Добавить отчет" @click="goToDailyReportForm" />
@@ -11,8 +12,10 @@ import "vue-scroll-picker/style.css"
 import ActionButton from "components/buttons/ActionButton.vue"
 import { useRouter } from "vue-router"
 import { RouteNames } from "src/router/routes"
+import MainTabCharts from "components/charts/MainTabCharts.vue"
 
 const router = useRouter()
+
 const goToInitialForm = () => {
     router.push({ name: RouteNames.USER_INITIAL_FORM })
 }
