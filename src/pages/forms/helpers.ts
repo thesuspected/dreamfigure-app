@@ -56,14 +56,14 @@ export const generateHipsLength = () => {
     const range = [...Array(end - start + 1).keys()].map((x) => x + start)
     return range.map((number) => ({ label: `${number} см`, value: number }))
 }
-export const calculateMaleBodyFatPercentage = (form: InitialFormType) => {
+export const calculateMaleBodyFatPercentage = (form: Partial<InitialFormType>) => {
     const { waistLength, neckLength, height } = form
     return (
         495 / (1.0324 - 0.19077 * Math.log10(waistLength - neckLength) + 0.15456 * Math.log10(height)) -
         450
     ).toFixed(2)
 }
-export const calculateFemaleBodyFatPercentage = (form: InitialFormType) => {
+export const calculateFemaleBodyFatPercentage = (form: Partial<InitialFormType>) => {
     const { waistLength, neckLength, height, hipsLength } = form
     return (
         495 / (1.29579 - 0.35004 * Math.log10(waistLength + hipsLength - neckLength) + 0.221 * Math.log10(height)) -
@@ -73,9 +73,7 @@ export const calculateFemaleBodyFatPercentage = (form: InitialFormType) => {
 export const calculateIdealWeight = (form: InitialFormType) => {
     const { height, gender } = form
     const index = gender === "FEMALE" ? 21.5 : 23
-    return (
-        index * (Math.pow((height / 100), 2))
-    ).toFixed(0)
+    return (index * Math.pow(height / 100, 2)).toFixed(0)
 }
 
 export const generateWaterOptions = () => {

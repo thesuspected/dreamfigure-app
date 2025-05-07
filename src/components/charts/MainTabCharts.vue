@@ -31,8 +31,17 @@ import { api } from "boot/axios"
 
 use([CanvasRenderer, BarChart, GridComponent, TooltipComponent, LegendComponent])
 
+interface WeeklyStatsItem {
+    date: string
+    dayName: string
+    calories: string
+    proteins: string
+    fats: string
+    carbs: string
+}
+
 const { tgUserId } = useUserStore()
-const weeklyStats = ref([])
+const weeklyStats = ref<WeeklyStatsItem[]>([])
 const activeTab = ref("calories")
 
 const caloriesChartOption = ref({
@@ -145,11 +154,11 @@ const nutrientsChartOption = ref({
 
 const fetchWeeklyStats = async () => {
     try {
-        const response = await api.get(`/nutrition/weekly-stats/${tgUserId}`)
+        const response = await api.get<WeeklyStatsItem[]>(`/nutrition/weekly-stats/${tgUserId}`)
         weeklyStats.value = response.data
 
         // Обновляем данные для графиков
-        const days = weeklyStats.value.map((item) => item.day_name)
+        const days = weeklyStats.value.map((item) => item.dayName)
 
         // Обновляем график калорий
         caloriesChartOption.value.xAxis.data = days
