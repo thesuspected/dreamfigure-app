@@ -83,6 +83,7 @@ import {
     calculateFemaleBodyFatPercentage,
 } from "pages/forms/helpers"
 import { storeToRefs } from "pinia"
+import dayjs from "dayjs"
 
 const router = useRouter()
 const step = ref(0)
@@ -123,9 +124,10 @@ const saveWeekReport = async () => {
     const body = {
         ...form.value,
         userId: tgUserId,
+        date: dayjs().format("YYYY-MM-DD"),
         timestamp: new Date().toISOString(),
     }
-    await api.post("/week-reports/create", body)
+    await api.post("/week-reports", body)
     miniApp.close()
 }
 
