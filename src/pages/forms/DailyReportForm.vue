@@ -127,7 +127,7 @@ const saveReport = async () => {
         riseTime: `${riseTime.hour}:${riseTime.minute}`,
         sleepTime: `${sleepTime.hour}:${sleepTime.minute}`,
     }
-    await api.post("/reports/create", body)
+    await api.post("/daily-reports/create", body)
     miniApp.close()
 }
 
