@@ -104,7 +104,7 @@ const nutrientsChartOption = ref({
             stack: "total",
             data: [],
             itemStyle: {
-                color: "#FF6B6B",
+                color: "#ff783d",
             },
             label: {
                 show: true,
@@ -132,7 +132,7 @@ const nutrientsChartOption = ref({
             stack: "total",
             data: [],
             itemStyle: {
-                color: "#4ECDC4",
+                color: "#a2f04c",
             },
             label: {
                 show: true,
