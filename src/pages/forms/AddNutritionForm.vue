@@ -61,18 +61,18 @@
                 />
             </grid-layout>
         </div>
-        <MainButton text="Добавить" @click="handleMainButton" />
+        <true-main-button label="Добавить" @click="handleMainButton" />
     </div>
 </template>
 
 <script lang="ts" setup>
 import BackArrowButton from "components/buttons/BackArrowButton.vue"
+import TrueMainButton from "components/buttons/TrueMainButton.vue"
 import { useRouter } from "vue-router"
 import { ref } from "vue"
 import FormInput from "components/form/input/FormInput.vue"
 import GridLayout from "components/grid/GridLayout.vue"
 import SelectSlider from "components/slider/SelectSlider.vue"
-import { MainButton } from "vue-tg"
 import { getFoodTypeOptions } from "pages/forms/helpers"
 import { useMiniApp } from "vue-tg/8.0"
 import { useUserStore } from "stores/user/user"
