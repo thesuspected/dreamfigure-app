@@ -115,13 +115,13 @@ const emotionalOptions = getEmotionalOptions()
 const getGlassCount = computed(() => form.value.waterAmount / 200)
 const activityTypeOptions = getActivityTypeOptions()
 const miniApp = useMiniApp()
-const { getTgUserId } = useUserStore()
+const { tgUserId } = useUserStore()
 
 const saveReport = async () => {
     const { riseTime, sleepTime, activitySteps } = form.value
     const body = {
         ...form.value,
-        userId: getTgUserId,
+        userId: tgUserId,
         date: dayjs().format("YYYY-MM-DD"),
         activitySteps: Number(activitySteps),
         riseTime: `${riseTime.hour}:${riseTime.minute}`,

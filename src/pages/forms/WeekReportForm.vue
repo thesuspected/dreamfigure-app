@@ -103,12 +103,12 @@ const neckLengthOptions = generateNeckLength()
 const hipsLengthOptions = generateHipsLength()
 
 const miniApp = useMiniApp()
-const { getTgUserId } = useUserStore()
+const { tgUserId } = useUserStore()
 
 const saveWeekReport = async () => {
     const body = {
         ...form.value,
-        userId: getTgUserId,
+        userId: tgUserId,
         timestamp: new Date().toISOString(),
     }
     await api.post("/week-reports/create", body)

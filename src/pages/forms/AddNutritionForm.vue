@@ -104,11 +104,11 @@ const handleBackButton = () => {
 }
 
 const miniApp = useMiniApp()
-const { getTgUserId } = useUserStore()
+const { tgUserId } = useUserStore()
 const handleMainButton = async () => {
     const body = {
         ...form.value,
-        userId: getTgUserId,
+        userId: tgUserId,
         timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     }
     await api.post("/nutrition/create", body)

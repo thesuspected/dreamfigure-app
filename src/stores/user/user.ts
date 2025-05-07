@@ -15,7 +15,7 @@ export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
     const userData = ref<UserStoreType>()
     const isAdmin = ref(false)
 
-    const getTgUserId = computed(() => userData.value?.initData.user.id)
+    const tgUserId = computed(() => userData.value?.initData.user.id)
 
     const loadUserInitData = () => {
         if (initData.includes("user")) {
@@ -59,6 +59,6 @@ export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
         isAdmin,
         loadUserInitData,
         validateUser,
-        getTgUserId,
+        tgUserId,
     }
 })

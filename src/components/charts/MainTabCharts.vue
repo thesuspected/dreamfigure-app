@@ -31,7 +31,7 @@ import { api } from "boot/axios"
 
 use([CanvasRenderer, BarChart, GridComponent, TooltipComponent, LegendComponent])
 
-const { getTgUserId } = useUserStore()
+const { tgUserId } = useUserStore()
 const weeklyStats = ref([])
 const activeTab = ref("calories")
 
@@ -145,7 +145,7 @@ const nutrientsChartOption = ref({
 
 const fetchWeeklyStats = async () => {
     try {
-        const response = await api.get(`/nutrition/weekly-stats/${getTgUserId}`)
+        const response = await api.get(`/nutrition/weekly-stats/${tgUserId}`)
         weeklyStats.value = response.data
 
         // Обновляем данные для графиков

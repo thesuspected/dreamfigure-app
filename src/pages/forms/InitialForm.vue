@@ -190,12 +190,12 @@ const genderOptions = [
 ]
 
 const miniApp = useMiniApp()
-const { getTgUserId } = useUserStore()
+const { tgUserId } = useUserStore()
 const saveInitialForm = async () => {
     const { birthDate } = form.value
     const body = {
         ...form.value,
-        userId: getTgUserId,
+        userId: tgUserId,
         birthDate: `${birthDate.year}-${birthDate.month}-${birthDate.day}`,
     }
     await api.post("/users/initial", body)
