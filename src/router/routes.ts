@@ -5,6 +5,7 @@ import IndexPage from "pages/IndexPage.vue"
 import InitialForm from "pages/forms/InitialForm.vue"
 import AddNutritionForm from "pages/forms/AddNutritionForm.vue"
 import DailyReportForm from "pages/forms/DailyReportForm.vue"
+import WeekReportForm from "pages/forms/WeekReportForm.vue"
 
 export enum RouteNames {
     // user
@@ -12,7 +13,8 @@ export enum RouteNames {
     USER_INDEX = "",
     USER_INITIAL_FORM = "initial-form",
     ADD_NUTRITION_FORM = "add-nutrition-form",
-    DAILY_REPORT_FORM = "daily-report-form"
+    DAILY_REPORT_FORM = "daily-report-form",
+    WEEK_REPORT_FORM = "week-report-form",
 }
 
 const routes: RouteRecordRaw[] = [
@@ -40,6 +42,11 @@ const routes: RouteRecordRaw[] = [
                 path: RouteNames.DAILY_REPORT_FORM,
                 name: RouteNames.DAILY_REPORT_FORM,
                 component: DailyReportForm,
+            },
+            {
+                path: RouteNames.WEEK_REPORT_FORM,
+                name: RouteNames.WEEK_REPORT_FORM,
+                component: WeekReportForm,
             },
         ],
     },

@@ -4,6 +4,7 @@
         <action-button label="Начальная форма" @click="goToInitialForm" />
         <action-button label="Добавить блюдо" @click="goToNutritionForm" />
         <action-button label="Добавить отчет" @click="goToDailyReportForm" />
+        <action-button label="Еженедельный отчет" @click="goToWeekReportForm" />
     </div>
 </template>
 
@@ -24,6 +25,9 @@ const goToNutritionForm = () => {
 }
 const goToDailyReportForm = () => {
     router.push({ name: RouteNames.DAILY_REPORT_FORM })
+}
+const goToWeekReportForm = () => {
+    router.push({ name: RouteNames.WEEK_REPORT_FORM })
 }
 </script>
 
