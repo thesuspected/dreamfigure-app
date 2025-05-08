@@ -1,5 +1,5 @@
 <template>
-    <div class="date-picker q-pa-sm q-mb-md">
+    <div class="date-picker q-mb-md">
         <div class="row items-center justify-between">
             <q-btn flat round icon="chevron_left" @click="swipeWeek('right')" />
             <div class="row items-center">

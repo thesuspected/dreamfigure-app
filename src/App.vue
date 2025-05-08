@@ -1,5 +1,7 @@
 <template>
-    <router-view />
+    <bottom-layout>
+        <router-view />
+    </bottom-layout>
 </template>
 
 <script setup lang="ts">
@@ -10,6 +12,7 @@ import calendar from "dayjs/plugin/calendar"
 import updateLocale from "dayjs/plugin/updateLocale"
 import "dayjs/locale/ru"
 import { useUserStore } from "stores/user/user"
+import BottomLayout from "components/layout/BottomLayout.vue"
 
 const miniApp = useMiniApp()
 const viewport = useViewport()

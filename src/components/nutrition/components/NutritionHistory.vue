@@ -1,5 +1,5 @@
 <template>
-    <q-card flat class="history-card q-pa-md rounded-borders">
+    <q-card flat class="history-card rounded-borders">
         <div class="text-h6 q-mb-md">История</div>
         <q-spinner v-if="loading" size="24px" class="q-mb-md" />
         <div v-else>
@@ -11,11 +11,18 @@
                             <div class="text-bold">{{ rec.foodName }}</div>
                             <div class="text-caption text-grey">{{ formatTime(rec.timestamp) }}</div>
                         </div>
-                        <div class="text-h6">{{ rec.calories }} ккал</div>
-                        <div class="row q-gutter-sm">
-                            <div class="macro macro-p">P {{ rec.proteins }}г</div>
-                            <div class="macro macro-f">F {{ rec.fats }}г</div>
-                            <div class="macro macro-c">C {{ rec.carbs }}г</div>
+                        <div class="row items-end justify-between">
+                            <div>
+                                <div class="text-h6">{{ rec.calories }} ккал</div>
+                                <div class="row q-gutter-sm">
+                                    <div class="macro macro-p">Б {{ rec.proteins }}г</div>
+                                    <div class="macro macro-f">Ж {{ rec.fats }}г</div>
+                                    <div class="macro macro-c">У {{ rec.carbs }}г</div>
+                                </div>
+                            </div>
+                            <div>
+                                {{ rec.foodType }}
+                            </div>
                         </div>
                     </q-item-section>
                 </q-item>

@@ -1,12 +1,11 @@
 <template>
     <div class="page q-pa-md">
-        <nutrition-card />
+        <h1>Настройки пользователя</h1>
+        <!-- Здесь будет содержимое настроек -->
     </div>
 </template>
 
-<script setup lang="ts">
-import NutritionCard from "components/nutrition/NutritionCard.vue"
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .page {

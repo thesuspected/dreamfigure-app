@@ -1,5 +1,5 @@
 <template>
-    <q-card class="q-pa-md q-mb-md rounded-borders nutrition-card">
+    <div>
         <nutrition-date-picker
             :selected-date="selectedDate"
             :week="week"
@@ -8,7 +8,7 @@
         />
         <nutrition-kbju-card :kbju="kbju" :goals="goals" :loading="loadingKbju" class="q-mt-md" />
         <nutrition-history :records="records" :loading="loadingRecords" class="q-mt-md" />
-    </q-card>
+    </div>
 </template>
 
 <script setup>
@@ -90,9 +90,6 @@ onMounted(() => {
 
 <style scoped>
 .nutrition-card {
-    border-radius: 24px;
-}
-.rounded-borders {
     border-radius: 24px;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
     <div class="page q-pa-md">
-        <nutrition-card />
+        <main-tab-charts />
     </div>
 </template>
 
 <script setup lang="ts">
-import NutritionCard from "components/nutrition/NutritionCard.vue"
+import MainTabCharts from "components/charts/MainTabCharts.vue"
 </script>
 
 <style lang="scss" scoped>
