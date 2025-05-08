@@ -9,46 +9,38 @@ import WeekReportForm from "pages/forms/WeekReportForm.vue"
 
 export enum RouteNames {
     // user
-    USER_LAYOUT = "user-layout",
     USER_INDEX = "",
-    USER_INITIAL_FORM = "initial-form",
-    ADD_NUTRITION_FORM = "add-nutrition-form",
-    DAILY_REPORT_FORM = "daily-report-form",
-    WEEK_REPORT_FORM = "week-report-form",
+    USER_INITIAL_FORM = "/initial-form",
+    ADD_NUTRITION_FORM = "/add-nutrition-form",
+    DAILY_REPORT_FORM = "/daily-report-form",
+    WEEK_REPORT_FORM = "/week-report-form",
 }
 
 const routes: RouteRecordRaw[] = [
     {
-        path: "/",
-        name: RouteNames.USER_LAYOUT,
-        component: UserLayout,
-        redirect: { name: RouteNames.USER_INDEX },
-        children: [
-            {
-                path: RouteNames.USER_INDEX,
-                component: IndexPage,
-            },
-            {
-                path: RouteNames.USER_INITIAL_FORM,
-                name: RouteNames.USER_INITIAL_FORM,
-                component: InitialForm,
-            },
-            {
-                path: RouteNames.ADD_NUTRITION_FORM,
-                name: RouteNames.ADD_NUTRITION_FORM,
-                component: AddNutritionForm,
-            },
-            {
-                path: RouteNames.DAILY_REPORT_FORM,
-                name: RouteNames.DAILY_REPORT_FORM,
-                component: DailyReportForm,
-            },
-            {
-                path: RouteNames.WEEK_REPORT_FORM,
-                name: RouteNames.WEEK_REPORT_FORM,
-                component: WeekReportForm,
-            },
-        ],
+        path: RouteNames.USER_INDEX,
+        name: RouteNames.USER_INDEX,
+        component: IndexPage,
+    },
+    {
+        path: RouteNames.USER_INITIAL_FORM,
+        name: RouteNames.USER_INITIAL_FORM,
+        component: InitialForm,
+    },
+    {
+        path: RouteNames.ADD_NUTRITION_FORM,
+        name: RouteNames.ADD_NUTRITION_FORM,
+        component: AddNutritionForm,
+    },
+    {
+        path: RouteNames.DAILY_REPORT_FORM,
+        name: RouteNames.DAILY_REPORT_FORM,
+        component: DailyReportForm,
+    },
+    {
+        path: RouteNames.WEEK_REPORT_FORM,
+        name: RouteNames.WEEK_REPORT_FORM,
+        component: WeekReportForm,
     },
     // 404,
     {

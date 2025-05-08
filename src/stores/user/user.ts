@@ -9,11 +9,13 @@ import type { UserInfoType } from "./types"
 export enum UserStoreEnum {
     USER_STORE = "USER_STORE",
     USER_LOCAL_STORE = "USER_LOCAL_STORE",
+    USER_INIT_DATA_STRING = "USER_INIT_DATA_STRING",
 }
 
 export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
     const { initData } = useMiniApp()
     const tgUserData = ref<TgUserStoreType>()
+    const tgUserDataString = ref<string>()
     const tgUserId = computed(() => tgUserData.value?.initData.user.id)
 
     const user = ref<UserInfoType>()
@@ -27,6 +29,7 @@ export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
                 user: JSON.parse(urlParams.user),
             } as TgInitData
             tgUserData.value = { initData: initDataObject }
+            tgUserDataString.value = initData
             setLocalStorage()
         } else {
             getLocalStorage()
@@ -38,21 +41,34 @@ export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
         if (local) {
             tgUserData.value = local
         }
+        const initDataString: string | null = LocalStorage.getItem(UserStoreEnum.USER_INIT_DATA_STRING)
+        if (initDataString) {
+            tgUserDataString.value = initDataString
+        }
     }
 
     const setLocalStorage = () => {
         if (tgUserData.value) {
             LocalStorage.set(UserStoreEnum.USER_LOCAL_STORE, tgUserData.value)
         }
+        if (initData) {
+            LocalStorage.set(UserStoreEnum.USER_INIT_DATA_STRING, initData)
+        }
     }
 
     const validateUser = async () => {
         await nextTick()
-        if (tgUserData.value?.initData) {
-            const validateData = await api.post("/users/validate", tgUserData.value.initData)
-            if (validateData) {
-                // isAdmin.value = validateData.data.isAdmin
+        try {
+            if (tgUserDataString.value) {
+                const response = await api.post("/users/validate", { initData: tgUserDataString.value })
+                if (response.data.valid) {
+                    return true
+                }
             }
+            return false
+        } catch (error) {
+            console.error("Ошибка при валидации пользователя:", error)
+            return false
         }
     }
 
@@ -68,6 +84,7 @@ export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
 
     return {
         tgUserData,
+        tgUserDataString,
         isAdmin,
         loadUserInitData,
         validateUser,

@@ -19,7 +19,6 @@ const { impactOccurred } = useHapticFeedback()
 mainButton.onClick(() => {
     impactOccurred("medium")
 })
-miniApp.ready()
 theme.headerColor.value = "#ffffff"
 theme.backgroundColor.value = "#ffffff"
 theme.bottomBarColor.value = "#ffffff"
@@ -41,6 +40,7 @@ dayjs.updateLocale("ru", {
 const userStore = useUserStore()
 
 onBeforeMount(async () => {
+    miniApp.ready()
     userStore.loadUserInitData()
     await userStore.fetchUserInfo()
 })
@@ -49,5 +49,11 @@ onMounted(async () => {
     viewport.expand()
     viewport.isVerticalSwipesEnabled.value = false
     miniApp.isClosingConfirmationEnabled.value = true
+
+    const isValid = await userStore.validateUser()
+    if (!isValid) {
+        console.error("not valid")
+        // miniApp.close()
+    }
 })
 </script>
