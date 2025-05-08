@@ -1,5 +1,6 @@
 import { defineBoot } from "#q-app/wrappers"
 import axios, { type AxiosInstance } from "axios"
+import { useUserStore } from "stores/user/user"
 
 declare module "vue" {
     interface ComponentCustomProperties {
@@ -19,6 +20,18 @@ export const BASE_URL = "https://dreamfigure-back.ru.tuna.am/"
 // export const BASE_URL = "https://dreamfigure.online"
 // export const BASE_URL = 'http://localhost:8080'
 const api = axios.create({ baseURL: BASE_URL })
+
+// Добавляем перехватчик запросов для автоматической отправки userId
+api.interceptors.request.use((config) => {
+    const userStore = useUserStore()
+    const userId = userStore.tgUserId
+
+    if (userId) {
+        config.headers["X-User-ID"] = userId
+    }
+
+    return config
+})
 
 export default defineBoot(({ app }) => {
     // for use inside Vue files (Options API) through this.$axios and this.$api

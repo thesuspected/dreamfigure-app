@@ -1,11 +1,13 @@
 @import "utils";
 // app global css in SCSS form
-html, body {
+html,
+body {
     //overflow-x: hidden;
-    font-family: 'Commissioner', sans-serif;
+    font-family: "Commissioner", sans-serif;
     background: $bg;
     overflow: hidden;
     height: 100svh;
+    overflow-y: auto;
     font-size: 16px;
 }
 
@@ -17,19 +19,19 @@ h1 {
 
 // CUSTOM COLORS
 .bg-grey-lighter {
-    background: #F1F1F1 !important;
+    background: #f1f1f1 !important;
 }
 
 .text-grey-lighter {
-    color: #F1F1F1;
+    color: #f1f1f1;
 }
 
-.bg-grey-light, {
-    background: #E1E1E1 !important;
+.bg-grey-light {
+    background: #e1e1e1 !important;
 }
 
 .text-grey-light {
-    color: #E1E1E1;
+    color: #e1e1e1;
 }
 
 .bg-dark {

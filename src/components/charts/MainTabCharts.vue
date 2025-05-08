@@ -154,7 +154,7 @@ const nutrientsChartOption = ref({
 
 const fetchWeeklyStats = async () => {
     try {
-        const response = await api.get<WeeklyStatsItem[]>(`/nutrition/weekly-stats/${tgUserId}`)
+        const response = await api.get<WeeklyStatsItem[]>("/nutrition/weekly-stats")
         weeklyStats.value = response.data
 
         // Обновляем данные для графиков

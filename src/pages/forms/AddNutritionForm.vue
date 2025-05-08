@@ -111,7 +111,7 @@ const handleMainButton = async () => {
         userId: tgUserId,
         timestamp: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     }
-    await api.post("/nutrition/create", body)
+    await api.post("/nutrition/record", body)
     miniApp.close()
 }
 </script>

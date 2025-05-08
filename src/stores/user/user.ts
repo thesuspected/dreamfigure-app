@@ -34,6 +34,7 @@ export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
         } else {
             getLocalStorage()
         }
+        console.log(tgUserData.value)
     }
 
     const getLocalStorage = () => {
@@ -73,9 +74,8 @@ export const useUserStore = defineStore(UserStoreEnum.USER_STORE, () => {
     }
 
     const fetchUserInfo = async () => {
-        if (!tgUserId.value) return
         try {
-            const response = await api.get<UserInfoType>(`/users/${tgUserId.value}`)
+            const response = await api.get<UserInfoType>("/users/data")
             user.value = response.data
         } catch (error) {
             console.error("Ошибка при получении данных пользователя:", error)

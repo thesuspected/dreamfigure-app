@@ -1,6 +1,7 @@
 <template>
     <div class="page q-pa-md">
         <main-tab-charts />
+        <nutrition-card />
         <action-button label="Начальная форма" @click="goToInitialForm" />
         <action-button label="Добавить блюдо" @click="goToNutritionForm" />
         <action-button label="Добавить отчет" @click="goToDailyReportForm" />
@@ -14,6 +15,7 @@ import ActionButton from "components/buttons/ActionButton.vue"
 import { useRouter } from "vue-router"
 import { RouteNames } from "src/router/routes"
 import MainTabCharts from "components/charts/MainTabCharts.vue"
+import NutritionCard from "components/nutrition/NutritionCard.vue"
 
 const router = useRouter()
 
