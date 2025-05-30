@@ -16,7 +16,9 @@ declare module "vue" {
 // "export default () => {}" function below (which runs individually
 // for each client)
 
-export const BASE_URL = "https://dreamfigure-back.ru.tuna.am/"
+export const BASE_URL = process.env.NODE_VAR === "DEVELOPMENT" ? process.env.DEV_LINK : process.env.PROD_LINK
+
+// export const BASE_URL = "https://dreamfigure-back.ru.tuna.am/"
 // export const BASE_URL = "https://dreamfigure.online"
 // export const BASE_URL = 'http://localhost:8080'
 const api = axios.create({ baseURL: BASE_URL })
