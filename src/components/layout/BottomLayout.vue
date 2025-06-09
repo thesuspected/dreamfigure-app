@@ -2,6 +2,7 @@
     <div class="layout">
         <slot />
         <q-tabs
+            v-if="isTabsVisible"
             v-model="activeTab"
             class="bottom-layout"
             align="justify"
@@ -16,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue"
+import { computed, onMounted, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { RouteNames } from "src/router/routes"
 
@@ -24,6 +25,9 @@ const route = useRoute()
 const router = useRouter()
 
 const activeTab = ref()
+
+const routesWithTabs = [RouteNames.USER_HOME, RouteNames.USER_STATS, RouteNames.USER_SETTINGS]
+const isTabsVisible = computed(() => routesWithTabs.includes(route.name as RouteNames))
 
 const onTabChange = (tabName: string) => {
     router.push(tabName)
@@ -50,6 +54,7 @@ onMounted(() => {
     right: 0;
     z-index: 1000;
     padding-bottom: var(--tg-safe-area-inset-bottom, 0px);
+
     .q-tab {
         text-transform: none;
     }
